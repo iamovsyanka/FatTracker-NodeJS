@@ -1,0 +1,32 @@
+{
+  "name": "FatTracker-NodeJS",
+  "version": "1.0.0",
+  "description": "Курсовой проект по дисциплине \"Программирование серверных кроссплатформенных приложений\" (NodeJS) 3 курс, 2 семестр",
+  "main": "index.js",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "moment": "^2.29.1",
+    "on-finished": "^2.3.0",
+    "sequelize": "^6.5.0",
+    "swagger-ui-express": "^4.1.6",
+    "tedious": "^11.0.4",
+    "winston": "^3.3.3",
+    "yamljs": "^0.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iamovsyanka/FatTracker-NodeJS.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iamovsyanka/FatTracker-NodeJS/issues"
+  },
+  "homepage": "https://github.com/iamovsyanka/FatTracker-NodeJS#readme"
+}
