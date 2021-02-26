@@ -55,9 +55,8 @@ module.exports = function (sequelize, DataTypes) {
         model.hashPassword();
     });
 
-    User.prototype.hashPassword = async function () {
-        const salt = await bcrypt.genSalt(SALT_ROUNDS);
-        this.password = await bcrypt.hash(this.password, salt);
+    User.prototype.hashPassword = function () {
+        this.password = bcrypt.hashSync(this.password, SALT_ROUNDS);
     };
 
     return User;
