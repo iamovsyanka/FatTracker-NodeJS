@@ -32,6 +32,11 @@ module.exports = function (sequelize, DataTypes) {
              as: 'Product',
              foreignKey: 'productId'
          });
+
+         Meal.belongsTo(models.Day, {
+             as: 'Day',
+             foreignKey: 'dayId'
+         })
      };
 
     return Meal;

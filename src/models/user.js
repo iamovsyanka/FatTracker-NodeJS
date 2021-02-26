@@ -59,5 +59,12 @@ module.exports = function (sequelize, DataTypes) {
         this.password = bcrypt.hashSync(this.password, SALT_ROUNDS);
     };
 
+    User.associate = function (models) {
+        User.hasMany(models.Day, {
+            as: 'days',
+            foreignKey: 'userId'
+        })
+    };
+
     return User;
 };

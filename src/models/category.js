@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-    //TODO: photo?
+
     const Category = sequelize.define('Category', {
             id: {
                 type: DataTypes.INTEGER,

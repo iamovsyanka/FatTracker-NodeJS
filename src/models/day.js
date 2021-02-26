@@ -36,9 +36,10 @@ module.exports = function (sequelize, DataTypes) {
             foreignKey: 'userId'
         });
 
-        // Day.hasMany(models.Meal, {
-        //     as: 'meals'
-        // });
+        Day.hasMany(models.Meal, {
+            as: 'meals',
+            foreignKey: 'dayId'
+        });
     };
 
     return Day;
