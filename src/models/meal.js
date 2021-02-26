@@ -1,5 +1,6 @@
 module.exports = function (sequelize, DataTypes) {
-//TODO: productId, граммовка
+    const enums = require('./enums/enums');
+
     const Meal = sequelize.define('Meal', {
         id: {
             type: DataTypes.INTEGER,
@@ -13,19 +14,25 @@ module.exports = function (sequelize, DataTypes) {
         productId: {
             type: DataTypes.INTEGER,
             allowNull: false
+        },
+        weight: {
+            type: DataTypes.SMALLINT,
+            allowNull: false
+        },
+        meal: {
+            type: DataTypes.ENUM(enums.meals),
+            allowNull: false
         }
-
     },{
         tableName: 'meals'
     });
 
-    // Meal.associate = function (models) {
-    //     Meal.hasMany(models.Product, {
-    //         as: 'products',
-    //         foreignKey: 'categoryId',
-    //         sourceKey: 'id'
-    //     });
-    // };
+     Meal.associate = function (models) {
+         Meal.belongsTo(models.Product, {
+             as: 'Product',
+             foreignKey: 'productId'
+         });
+     };
 
     return Meal;
 };

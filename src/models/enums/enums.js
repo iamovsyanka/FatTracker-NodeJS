@@ -1,7 +1,7 @@
-class Enums {
-  get onlineStatuses() {
-    return ['online', 'offline', 'unknown'];
-  }
-}
+const meals = ['Breakfast', 'Lunch', 'Dinner', 'Snack'];
+const roles = ['admin', 'user'];
 
-module.exports = new Enums();
+module.exports = {
+  meals: meals,
+  roles: roles
+};
