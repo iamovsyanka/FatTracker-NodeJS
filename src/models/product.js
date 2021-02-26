@@ -1,55 +1,55 @@
 module.exports = function (sequelize, DataTypes) {
-    //TODO: photo?
-    const Product = sequelize.define('Product', {
-        id: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true
-        },
-        name: {
-            type: DataTypes.STRING,
-            unique: true,
-            allowNull: false
-        },
-        calories: {
-            type: DataTypes.INTEGER,
-            allowNull: false
-        },
-        fats: {
-            type: DataTypes.INTEGER,
-            allowNull: false
-        },
-        protein: {
-            type: DataTypes.INTEGER,
-            allowNull: false
-        },
-        carbs: {
-            type: DataTypes.INTEGER,
-            allowNull: false
-        },
-        brandName: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        categoryId: {
-            type: DataTypes.INTEGER,
-            allowNull: false
-        }
-    },{
-        tableName: 'products'
+  // TODO: photo?
+  const Product = sequelize.define('Product', {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    name: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false,
+    },
+    calories: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    fats: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    protein: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    carbs: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    brandName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    categoryId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+  }, {
+    tableName: 'products',
+  });
+
+  Product.associate = function (models) {
+    Product.belongsTo(models.Category, {
+      as: 'Category',
+      foreignKey: 'categoryId',
     });
 
-    Product.associate = function (models) {
-        Product.belongsTo(models.Category, {
-            as: 'Category',
-            foreignKey: 'categoryId'
-        });
+    Product.hasMany(models.Meal, {
+      as: 'meals',
+      foreignKey: 'productId',
+    });
+  };
 
-        Product.hasMany(models.Meal, {
-            as: 'meals',
-            foreignKey: 'productId'
-        })
-    };
-
-    return Product;
+  return Product;
 };

@@ -1,8 +1,7 @@
-const db = require('../services/db');
+const db = require('./db');
 
-const getAllCategories = async () =>
-    await db.models.Category.findAll();
+const getAllCategories = async () => await db.models.Category.findAll();
 
 module.exports = {
-    getAllCategories
+  getAllCategories,
 };

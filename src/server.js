@@ -3,12 +3,12 @@ const app = require('./app');
 const db = require('./services/db');
 
 db.sequelize.authenticate()
-//db.sequelize.sync({ force: true })
-    .then(async() => {
-        console.log('Start project, port:' + PORT);
+// db.sequelize.sync({ force: true })
+  .then(async () => {
+    console.log(`Start project, port:${PORT}`);
 
-        return app.listen(PORT);
-    })
-    .catch(err => {
-        console.error(err.message);
-    });
+    return app.listen(PORT);
+  })
+  .catch((err) => {
+    console.error(err.message);
+  });

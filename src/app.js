@@ -1,22 +1,20 @@
 const express = require('express');
-//const swaggerUI = require('swagger-ui-express');
-const YAML = require('yamljs');
-const path = require('path');
+// const swaggerUI = require('swagger-ui-express');
 const logger = require('./services/logger');
 const categoryRouter = require('./routers/categoryRouter');
 const userRouter = require('./routers/userRouter');
-const authRouter = require('./routers/authRouter');
+const authRouter = require('./routers/authAndRegisterRouter');
 const authMiddleware = require('./middlewares/authMiddleware');
 
 const app = express();
-//const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
+// const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
 
 app
-    .use(express.json())
-    //.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
-    .use(logger.url)
-    .use('/api/v1', authRouter)
-    .use('/api/v1/categories', authMiddleware, categoryRouter)
-    .use('/api/v1/users', userRouter);
+  .use(express.json())
+// .use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
+  .use(logger.url)
+  .use('/api/v1', authRouter)
+  .use('/api/v1/categories', authMiddleware, categoryRouter)
+  .use('/api/v1/users', authMiddleware, userRouter);
 
 module.exports = app;
