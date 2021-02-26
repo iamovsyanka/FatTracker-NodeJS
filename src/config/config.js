@@ -18,5 +18,7 @@ module.exports = {
     AUTH_MODE: process.env.AUTH_MODE === 'true',
     SALT_ROUNDS: Number(process.env.SALT_ROUNDS),
     HTTP_HEADER_AUTHORIZATION: process.env.HTTP_HEADER_Authorization,
-    AUTHORIZATION_SCHEMA: process.env.Authorization_Schema
+    AUTHORIZATION_SCHEMA: process.env.Authorization_Schema,
+    EXPIRES_IN: process.env.EXPIRES_IN
 };
+

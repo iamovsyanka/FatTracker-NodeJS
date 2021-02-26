@@ -2,7 +2,8 @@ const { PORT } = require('./config/config');
 const app = require('./app');
 const db = require('./services/db');
 
-db.sequelize.sync({ force: true })
+db.sequelize.authenticate()
+//db.sequelize.sync({ force: true })
     .then(async() => {
         console.log('Start project, port:' + PORT);
 
