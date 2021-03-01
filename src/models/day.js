@@ -3,27 +3,39 @@ module.exports = function (sequelize, DataTypes) {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
-      primaryKey: true,
+      primaryKey: true
     },
     totalCalories: {
       type: DataTypes.INTEGER,
-      allowNull: true,
+      allowNull: true
+    },
+    totalFats: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    totalProtein: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    totalCarbs: {
+      type: DataTypes.INTEGER,
+      allowNull: true
     },
     requiredCalories: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: false
     },
     weight: {
       type: DataTypes.INTEGER,
-      allowNull: true,
+      allowNull: true
     },
     date: {
       type: DataTypes.DATEONLY,
-      allowNull: false,
+      allowNull: false
     },
     userId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: false
     },
   }, {
     tableName: 'days',

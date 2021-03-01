@@ -8,48 +8,60 @@ module.exports = function (sequelize, DataTypes) {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
-      primaryKey: true,
+      primaryKey: true
     },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
+      unique: true
     },
     firstName: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
     lastName: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
     verified: {
       type: DataTypes.BOOLEAN,
-      allowNull: false,
+      allowNull: false
     },
     height: {
       type: DataTypes.INTEGER,
-      allowNull: true,
+      allowNull: true
     },
     desiredWeight: {
       type: DataTypes.INTEGER,
-      allowNull: true,
+      allowNull: true
     },
     photo: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: true
     },
     role: {
       type: DataTypes.ENUM(enums.roles),
-      allowNull: false,
+      allowNull: false
     },
+    sex: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true
+    },
+    birthDay: {
+      type: DataTypes.ENUM(enums.sex),
+      allowNull: true
+    },
+    activity: {
+      type: DataTypes.ENUM(enums.activity),
+      allowNull: true
+    }
   }, {
     paranoid: true,
-    tableName: 'users',
+    tableName: 'users'
   });
 
   User.beforeCreate((model) => {

@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  // TODO: photo?
+  // TODO: photo?, userId?
   const Product = sequelize.define('Product', {
     id: {
       type: DataTypes.INTEGER,
@@ -30,6 +30,10 @@ module.exports = function (sequelize, DataTypes) {
     brandName: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    photo: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
     categoryId: {
       type: DataTypes.INTEGER,
