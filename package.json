@@ -2,7 +2,7 @@
   "name": "FatTracker-NodeJS",
   "version": "1.0.0",
   "description": "Курсовой проект по дисциплине \"Программирование серверных кроссплатформенных приложений\" (NodeJS) 3 курс, 2 семестр",
-  "main": "index.js",
+  "main": "src\\server.js",
   "dependencies": {
     "bcrypt": "^5.0.1",
     "dotenv": "^8.2.0",
@@ -18,15 +18,11 @@
     "yamljs": "^0.3.0"
   },
   "devDependencies": {
-    "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-config-prettier": "6.7.0",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-node": "10.0.0",
-    "eslint-plugin-prettier": "3.1.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon server.js"
+    "dev": "nodemon src\\server.js",
+    "start": "node src\\server.js"
   },
   "repository": {
     "type": "git",

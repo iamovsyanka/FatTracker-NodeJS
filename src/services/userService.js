@@ -20,7 +20,19 @@ const login = async function (data) {
   return token(user.id, user.role);
 };
 
+const updateHeightAndWeight = async function(data) {
+  return await db.models.User.update({
+    height: data.body.height,
+    desiredWeight: data.body.desiredWeight
+  },{
+      where:{
+        id: data.user.id
+      }
+  })
+};
+
 module.exports = {
   registerUser,
   login,
+  updateHeightAndWeight
 };
