@@ -1,9 +1,9 @@
 const { PORT } = require('./config/config');
 const app = require('./app');
-const db = require('./services/db');
+const db = require('./db/db');
 
-db.sequelize.authenticate()
-// db.sequelize.sync({ force: true })
+//db.sequelize.authenticate()
+ db.sequelize.sync({ force: false, alter: false })
   .then(async () => {
     console.log(`Start project, port:${PORT}`);
 

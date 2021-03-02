@@ -1,11 +1,11 @@
 const bcrypt = require('bcrypt');
-const db = require('./db');
-const token = require('./generateAccessToken');
+const db = require('../db/db');
+const jwtToken = require('../token/jwt');
+const fileLoader = require('../fileLoader/fileLoader');
 
 const registerUser = async (data) => await db.models.User.create({
   email: data.email,
-  firstName: data.firstName,
-  lastName: data.lastName,
+  name: data.name,
   password: data.password,
   verified: true,
   role: 'user',
@@ -17,13 +17,16 @@ const login = async function (data) {
     // return response.sendStatus(403);
   }
 
-  return token(user.id, user.role);
+  return jwtToken.generateAccessToken(user.id, user.role);
 };
 
-const updateHeightAndWeight = async function(data) {
+const updateInformation = async function(data) {
   return await db.models.User.update({
     height: data.body.height,
-    desiredWeight: data.body.desiredWeight
+    desiredWeight: data.body.desiredWeight,
+    birthDay: data.body.birthDay,
+    sex: data.body.sex,
+    activity: data.body.activity
   },{
       where:{
         id: data.user.id
@@ -31,8 +34,33 @@ const updateHeightAndWeight = async function(data) {
   })
 };
 
+const updatePhoto = async function(data, file) {
+  let photo;
+  if (file) {
+    const fileNameArray = file.originalname.split('.');
+    const fileFormat = fileNameArray[fileNameArray.length - 1];
+    if (fileNameArray.length === 1 || !(fileFormat === 'png' || fileFormat === 'jpg' || fileFormat === 'jpeg'))
+      //throw new AppError({status: 400, message: errorMessages.WRONG_PHOTO_FORMAT});
+
+      console.log(fileLoader.savePhoto(file, 'users'));
+      photo = await fileLoader.savePhoto(file, 'users');
+  }
+
+  return await db.models.User.update({ photo: photo }, { where: { id: data.user.id }});
+};
+
+const countCalories = async function(data) {
+  const user = await db.models.User.find({ where: {
+      id: data.user.id
+    }
+  });
+
+  const calories = 9.99 * user;
+};
+
 module.exports = {
   registerUser,
   login,
-  updateHeightAndWeight
+  updateInformation,
+  updatePhoto
 };

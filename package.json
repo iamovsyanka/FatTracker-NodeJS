@@ -2,13 +2,14 @@
   "name": "FatTracker-NodeJS",
   "version": "1.0.0",
   "description": "Курсовой проект по дисциплине \"Программирование серверных кроссплатформенных приложений\" (NodeJS) 3 курс, 2 семестр",
-  "main": "src\\server.js",
+  "main": "./src/server.js",
   "dependencies": {
     "bcrypt": "^5.0.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.1",
+    "multer": "^1.4.2",
     "nodemon": "^2.0.7",
     "on-finished": "^2.3.0",
     "sequelize": "^6.5.0",
@@ -18,11 +19,12 @@
     "yamljs": "^0.3.0"
   },
   "devDependencies": {
+    "express.oi": "0.0.21"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon src\\server.js",
-    "start": "node src\\server.js"
+    "dev": "nodemon ./src/server.js",
+    "start": "node ./src/server.js"
   },
   "repository": {
     "type": "git",

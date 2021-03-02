@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  // TODO: photo?, userId?
+  // TODO: userId?
   const Product = sequelize.define('Product', {
     id: {
       type: DataTypes.INTEGER,
@@ -39,6 +39,10 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    }
   }, {
     tableName: 'products',
   });
@@ -47,12 +51,18 @@ module.exports = function (sequelize, DataTypes) {
     Product.belongsTo(models.Category, {
       as: 'Category',
       foreignKey: 'categoryId',
+      onDelete: 'CASCADE'
     });
 
     Product.hasMany(models.Meal, {
       as: 'meals',
       foreignKey: 'productId',
     });
+
+    Product.belongsTo(models.User, {
+      as: 'User',
+      foreignKey: 'userId'
+    })
   };
 
   return Product;

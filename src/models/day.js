@@ -44,7 +44,7 @@ module.exports = function (sequelize, DataTypes) {
   Day.associate = function (models) {
     Day.belongsTo(models.User, {
       as: 'User',
-      foreignKey: 'userId',
+      foreignKey: 'userId'
     });
 
     Day.hasMany(models.Meal, {

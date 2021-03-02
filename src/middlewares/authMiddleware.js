@@ -1,5 +1,4 @@
-const jwt = require('jsonwebtoken');
-const { AUTHORIZATION_SCHEMA, JWT_SECRET_KEY } = require('../config/config');
+const jwtToken = require('../token/jwt');
 
 const authMiddleware = (request, response, next) => {
   const token = request.header('Authorization');
@@ -7,10 +6,7 @@ const authMiddleware = (request, response, next) => {
     response.status(401).end();
   }
   try {
-    request.user = jwt.verify(
-      token.replace(AUTHORIZATION_SCHEMA, '').replace(' ', ''),
-      JWT_SECRET_KEY
-    );
+    request.user = jwtToken.verifyToken(token);
   } catch (error) {
     response.status(400).end();
   }

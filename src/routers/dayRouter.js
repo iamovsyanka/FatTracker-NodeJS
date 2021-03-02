@@ -3,6 +3,6 @@ const dayController = require('../controllers/dayController');
 
 const dayRouter = express.Router();
 
-dayRouter.post('/updateWeight', dayController.updateCurrentWeight);
+dayRouter.put('/updateWeight', dayController.updateCurrentWeight);
 
 module.exports = dayRouter;

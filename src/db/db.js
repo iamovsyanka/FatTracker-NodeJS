@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const config = require('../config/config');
-const logger = require('./logger');
+const logger = require('../logging/logger');
 
 if (!config.DB) return logger.error(new Error('The database is not set'));
 if (!config.USERNAME) return logger.error(new Error('The username to db is not set'));

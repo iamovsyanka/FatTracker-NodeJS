@@ -1,4 +1,4 @@
-const db = require('./db');
+const db = require('../db/db');
 const { Op } = require('sequelize');
 const moment = require('moment');
 
@@ -31,7 +31,6 @@ const updateCurrentWeight = async function(data) {
       requiredCalories: 1500
     })
   }
-
 };
 
 module.exports = {

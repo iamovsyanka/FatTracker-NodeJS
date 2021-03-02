@@ -16,12 +16,12 @@ const logger = createLogger({
       format: format.combine(format.colorize(), format.simple()),
     }),
     new transports.File({
-      filename: '../logs/logger.log',
+      filename: './logs/logger.log',
       level: 'info',
       format: format.combine(format.colorize(), format.json()),
     }),
     new transports.File({
-      filename: '../logs/error.log',
+      filename: './logs/error.log',
       level: 'error',
       format: format.combine(format.colorize(), format.json()),
     }),

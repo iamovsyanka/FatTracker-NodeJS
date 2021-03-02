@@ -15,13 +15,10 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false,
       unique: true
     },
-    firstName: {
+    name: {
       type: DataTypes.STRING,
-      allowNull: false
-    },
-    lastName: {
-      type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      unique: true
     },
     password: {
       type: DataTypes.STRING,
@@ -44,8 +41,9 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: true
     },
     role: {
-      type: DataTypes.ENUM(enums.roles),
-      allowNull: false
+      type: new DataTypes.VIRTUAL(DataTypes.STRING), get: () => {
+        return 'user';
+      }
     },
     sex: {
       type: DataTypes.BOOLEAN,

@@ -1,6 +1,6 @@
-const express = require('express');
+const express = require('express.oi');
 // const swaggerUI = require('swagger-ui-express');
-const logger = require('./services/logger');
+const logger = require('./logging/logger');
 const categoryRouter = require('./routers/categoryRouter');
 const userRouter = require('./routers/userRouter');
 const authRouter = require('./routers/authAndRegisterRouter');
@@ -10,6 +10,14 @@ const authMiddleware = require('./middlewares/authMiddleware');
 const app = express();
 // const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
 
+const filesHelper = require('./fileLoader/fileLoader');
+
+filesHelper.createDir('./', 'photos');
+filesHelper.createDir('./photos', 'categories');
+filesHelper.createDir('./photos', 'products');
+filesHelper.createDir('./photos', 'users');
+
+app.use(express.static('./photos'));
 app
   .use(express.json())
 // .use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
