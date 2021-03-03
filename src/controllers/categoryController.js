@@ -32,5 +32,16 @@ module.exports = {
       .catch((err) => {
         console.error(err.message);
       });
+  },
+
+  async deleteCategory(request, response) {
+    await categoryService.deleteCategory(request.body.id)
+      .then((result) => {
+        response.type('json');
+        response.end(JSON.stringify(result));
+      })
+      .catch((err) => {
+        console.error(err.message);
+      });
   }
 };

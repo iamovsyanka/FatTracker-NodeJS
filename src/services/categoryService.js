@@ -48,8 +48,13 @@ const updateCategory = async (data, file) => {
     })
 };
 
+const deleteCategory = (id) => {
+  return db.models.Category.destroy({ where: { id: id } });
+};
+
 module.exports = {
   getAllCategories,
   addCategory,
-  updateCategory
+  updateCategory,
+  deleteCategory
 };
