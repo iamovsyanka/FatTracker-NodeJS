@@ -9,7 +9,6 @@ module.exports = {
 function savePhoto(file, folder) {
   const fileNameArray = file.originalname.split('.');
   const fileFormat = fileNameArray[fileNameArray.length - 1];
-
   const fileFolder = prepareDir('./photos/' + folder + '/'),
     filePath = fileFolder + '/' + Date.now() + '.' + fileFormat,
     newPath = './photos/' + folder + '/' + filePath;

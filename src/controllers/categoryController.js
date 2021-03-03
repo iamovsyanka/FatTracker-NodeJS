@@ -13,7 +13,6 @@ module.exports = {
   },
 
   async addCategory(request, response) {
-    console.log(request.body.name);
     await categoryService.addCategory(request.body.name, request.file)
       .then((result) => {
         response.type('json');

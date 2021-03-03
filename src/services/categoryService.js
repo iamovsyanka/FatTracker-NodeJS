@@ -16,7 +16,7 @@ const addCategory = async (name, file) => {
       const fileFormat = fileNameArray[fileNameArray.length - 1];
       if (fileNameArray.length === 1 || !(fileFormat === 'png' || fileFormat === 'jpg' || fileFormat === 'jpeg'))
         //throw new AppError({status: 400, message: errorMessages.WRONG_PHOTO_FORMAT});
-
+      {}
       photo = await fileLoader.savePhoto(file, 'categories');
     }
 
