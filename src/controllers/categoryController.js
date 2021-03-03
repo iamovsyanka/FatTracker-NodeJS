@@ -21,5 +21,16 @@ module.exports = {
       .catch((err) => {
         console.error(err.message);
       });
+  },
+
+  async updateCategory(request, response) {
+    await categoryService.updateCategory(request.body, request.file)
+      .then((result) => {
+        response.type('json');
+        response.end(JSON.stringify(result));
+      })
+      .catch((err) => {
+        console.error(err.message);
+      });
   }
 };
