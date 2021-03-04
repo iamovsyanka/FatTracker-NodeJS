@@ -19,5 +19,5 @@ module.exports = {
   SALT_ROUNDS: Number(process.env.SALT_ROUNDS),
   HTTP_HEADER_AUTHORIZATION: process.env.HTTP_HEADER_Authorization,
   AUTHORIZATION_SCHEMA: process.env.Authorization_Schema,
-  EXPIRES_IN: process.env.EXPIRES_IN,
+  EXPIRES_IN: process.env.EXPIRES_IN
 };

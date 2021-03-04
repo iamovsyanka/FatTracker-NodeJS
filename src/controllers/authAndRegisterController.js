@@ -27,4 +27,17 @@ module.exports = {
         console.error(err.message);
       });
   },
+
+  async verifyAccount(request, response) {
+    console.log(request.query);
+    if (request.query.token)
+    await userService.verifyAccount(request.query.token)
+      .then((result) => {
+        response.type('json');
+        response.end(JSON.stringify(result));
+      })
+      .catch((err) => {
+        console.error(err.message);
+      });
+  }
 };

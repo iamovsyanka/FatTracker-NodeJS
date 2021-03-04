@@ -2,14 +2,18 @@ const bcrypt = require('bcrypt');
 const db = require('../db/db');
 const jwtToken = require('../token/jwt');
 const fileLoader = require('../fileLoader/fileLoader');
+const confirm = require('../mail/confirm');
 
-const registerUser = async (data) => await db.models.User.create({
-  email: data.email,
-  name: data.name,
-  password: data.password,
-  verified: true,
-  role: 'user',
-});
+const registerUser = async (data) => {
+  await db.models.User.create({
+    email: data.email,
+    name: data.name,
+    password: data.password,
+    verified: false
+  }).catch(err => console.error(err));
+
+  await confirm(data.email);
+};
 
 const login = async function (data) {
   const user = await db.models.User.findOne({ where: { email: data.email } });
@@ -18,6 +22,20 @@ const login = async function (data) {
   }
 
   return jwtToken.generateAccessToken(user.id, user.role);
+};
+
+const verifyAccount =  async function(token) {
+  try {
+    const decodedToken = jwtToken.verifyToken(token);
+    const existUser = await db.models.User.findOne({ where: { email: decodedToken.email } });
+
+    //if (!existUser) throw new AppError({status: 404, message: errorMessages.USER_NOT_FOUND});
+
+    return await existUser.update({verified: true});
+  } catch (err) {
+    // if (err instanceof AppError) throw err;
+    // throw new AppError({err: err});
+  }
 };
 
 const updateInformation = async function(data) {
@@ -61,6 +79,7 @@ const countCalories = async function(data) {
 module.exports = {
   registerUser,
   login,
+  verifyAccount,
   updateInformation,
   updatePhoto
 };
