@@ -21,10 +21,6 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: true
     },
-    requiredCalories: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
     weight: {
       type: DataTypes.INTEGER,
       allowNull: true

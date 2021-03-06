@@ -56,7 +56,11 @@ module.exports = function (sequelize, DataTypes) {
     activity: {
       type: DataTypes.ENUM(enums.activity),
       allowNull: true
-    }
+    },
+    requiredCalories: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
   }, {
     paranoid: true,
     tableName: 'users'
@@ -75,6 +79,11 @@ module.exports = function (sequelize, DataTypes) {
       as: 'days',
       foreignKey: 'userId',
     });
+
+    User.hasMany(models.Product, {
+      as: 'products',
+      foreignKey: 'userId'
+    })
   };
 
   return User;

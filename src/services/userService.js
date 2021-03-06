@@ -59,8 +59,7 @@ const updatePhoto = async function(data, file) {
     const fileFormat = fileNameArray[fileNameArray.length - 1];
     if (fileNameArray.length === 1 || !(fileFormat === 'png' || fileFormat === 'jpg' || fileFormat === 'jpeg'))
       //throw new AppError({status: 400, message: errorMessages.WRONG_PHOTO_FORMAT});
-
-      console.log(fileLoader.savePhoto(file, 'users'));
+{}
       photo = await fileLoader.savePhoto(file, 'users');
   }
 

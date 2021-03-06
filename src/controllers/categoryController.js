@@ -35,7 +35,7 @@ module.exports = {
   },
 
   async deleteCategory(request, response) {
-    await categoryService.deleteCategory(request.body.id)
+    await categoryService.deleteCategory(request.query.id)
       .then((result) => {
         response.type('json');
         response.end(JSON.stringify(result));
