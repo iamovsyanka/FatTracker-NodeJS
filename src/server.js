@@ -3,7 +3,7 @@ const app = require('./app');
 const db = require('./db/db');
 
 //db.sequelize.authenticate()
- db.sequelize.sync({ })
+ db.sequelize.sync({ alter: true })
   .then(async () => {
     console.log(`Start project, port:${PORT}`);
 

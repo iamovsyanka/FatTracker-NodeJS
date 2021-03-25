@@ -6,7 +6,9 @@ const userRouter = require('./routers/userRouter');
 const authRouter = require('./routers/authAndRegisterRouter');
 const dayRouter = require('./routers/dayRouter');
 const productRouter = require('./routers/productRouter');
+const adminRouter = require('./routers/adminRouter');
 const authMiddleware = require('./middlewares/authMiddleware');
+const authAdminMiddleware = require('./middlewares/authAdminMiddleware');
 
 const app = express();
 // const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
@@ -24,9 +26,10 @@ app
 // .use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
   .use(logger.url)
   .use('/api/v1', authRouter)
+  .use('/api/v1/admin', authAdminMiddleware, adminRouter)
   .use('/api/v1/category', authMiddleware, categoryRouter)
   .use('/api/v1/user', authMiddleware, userRouter)
   .use('/api/v1/day', authMiddleware, dayRouter)
-  .use('/api/v1/product', authMiddleware, productRouter);
+  .use('/api/v1/product', authAdminMiddleware, productRouter);
 
 module.exports = app;

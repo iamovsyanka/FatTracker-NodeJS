@@ -41,16 +41,15 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: true
     },
     role: {
-      type: new DataTypes.VIRTUAL(DataTypes.STRING), get: () => {
-        return 'user';
-      }
+      type: DataTypes.ENUM(enums.role),
+      allowNull: true
     },
     sex: {
-      type: DataTypes.BOOLEAN,
+      type: DataTypes.ENUM(enums.sex),
       allowNull: true
     },
     birthDay: {
-      type: DataTypes.ENUM(enums.sex),
+      type: DataTypes.DATEONLY,
       allowNull: true
     },
     activity: {
