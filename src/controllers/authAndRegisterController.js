@@ -18,7 +18,7 @@ module.exports = {
   },
 
   async registerUser(request, response) {
-    await userService.registerUser(request.body)
+    await userService.registration(request.body)
       .then((result) => {
         response.type('json');
         response.end(JSON.stringify(result));

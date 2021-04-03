@@ -4,7 +4,7 @@ const jwtToken = require('../token/jwt');
 const fileLoader = require('../fileLoader/fileLoader');
 const confirm = require('../mail/confirm');
 
-const registerUser = async (data) => {
+const registration = async (data) => {
   await db.models.User.create({
     email: data.email,
     name: data.name,
@@ -21,7 +21,7 @@ const login = async function (data) {
   if (!user || !(await bcrypt.compare(data.password, user.password))) {
     // return response.sendStatus(403);
   }
-console.log(user.id);
+
   return jwtToken.generateAccessToken(user.id, user.role);
 };
 
@@ -77,7 +77,7 @@ const countCalories = async function(data) {
 };
 
 module.exports = {
-  registerUser,
+  registration,
   login,
   verifyAccount,
   updateInformation,
