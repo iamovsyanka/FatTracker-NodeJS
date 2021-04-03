@@ -3,7 +3,6 @@ const enums = require('./enums/enums');
 const { SALT_ROUNDS } = require('../config/config');
 
 module.exports = function (sequelize, DataTypes) {
-  // TODO: status
   const User = sequelize.define('User', {
     id: {
       type: DataTypes.INTEGER,
@@ -41,11 +40,11 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: true
     },
     role: {
-      type: DataTypes.ENUM(enums.role),
+      type: DataTypes.STRING(DataTypes.ENUM(enums.role)),
       allowNull: true
     },
     sex: {
-      type: DataTypes.ENUM(enums.sex),
+      type: DataTypes.STRING(DataTypes.ENUM(enums.sex)),
       allowNull: true
     },
     birthDay: {
@@ -53,7 +52,7 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: true
     },
     activity: {
-      type: DataTypes.ENUM(enums.activity),
+      type: DataTypes.INTEGER(DataTypes.ENUM(enums.activity)),
       allowNull: true
     },
     requiredCalories: {

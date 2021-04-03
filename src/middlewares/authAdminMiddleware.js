@@ -7,6 +7,10 @@ const authMiddleware = (request, response, next) => {
   }
   try {
     request.user = jwtToken.verifyToken(token);
+    if (request.user.role !== 'admin') {
+      response.status(403).end();
+    }
+    console.log(request.user.role);
 
     next();
   } catch (error) {

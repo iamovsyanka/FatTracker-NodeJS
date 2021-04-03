@@ -14,11 +14,6 @@ const sequelize = new Sequelize(config.DB, config.USERNAME, config.PASSWORD, {
         max: 100,
         min: 0,
         idle: 10000
-    },
-    dialectOptions: {
-        options: {
-            encrypt: true
-        }
     }
 });
 
@@ -43,6 +38,3 @@ module.exports = {
     models: models,
     sequelize: sequelize
 };
-
-
-

@@ -6,8 +6,10 @@ module.exports = function (sequelize, DataTypes) {
       primaryKey: true
     },
     totalCalories: {
-      type: DataTypes.INTEGER,
-      allowNull: true
+      type: new DataTypes.VIRTUAL(DataTypes.INTEGER), get: () => {
+        let calories = 0;
+        calories += meals.forEach((meal)=>{calories+meal.weight});
+      }
     },
     totalFats: {
       type: DataTypes.INTEGER,

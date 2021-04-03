@@ -20,7 +20,7 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false,
     },
     meal: {
-      type: DataTypes.ENUM(enums.meals),
+      type: DataTypes.STRING(DataTypes.ENUM(enums.meals)),
       allowNull: false,
     },
   }, {

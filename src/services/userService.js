@@ -9,10 +9,11 @@ const registerUser = async (data) => {
     email: data.email,
     name: data.name,
     password: data.password,
-    verified: false
+    verified: true,
+    role: 'user'
   }).catch(err => console.error(err));
 
-  await confirm(data.email);
+  //await confirm(data.email);
 };
 
 const login = async function (data) {
@@ -20,7 +21,7 @@ const login = async function (data) {
   if (!user || !(await bcrypt.compare(data.password, user.password))) {
     // return response.sendStatus(403);
   }
-
+console.log(user.id);
   return jwtToken.generateAccessToken(user.id, user.role);
 };
 

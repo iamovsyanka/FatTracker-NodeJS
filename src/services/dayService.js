@@ -23,16 +23,26 @@ const updateCurrentWeight = async function(data) {
       }
     })
   }
-  else {
+};
+
+const addDay = async function(data) {
+  const day = await db.models.Day.findOne({ where: {
+      [Op.and]: {
+        userId: data.user.id,
+        date: data.body.date || moment().utc().format('Y-M-D')
+      }
+    }
+  });
+
+  if (!day) {
     return await db.models.Day.create({
-      date: moment().utc().format('Y-M-D'),
-      weight: data.body.weight,
-      userId: data.user.id,
-      requiredCalories: 1500
+      date: data.body.date || moment().utc().format('Y-M-D'),
+      userId: data.user.id
     })
   }
 };
 
 module.exports = {
   updateCurrentWeight,
+  addDay
 };
