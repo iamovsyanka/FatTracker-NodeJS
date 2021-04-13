@@ -5,7 +5,7 @@ const onFinished = require('on-finished');
 const logger = createLogger({
   format: format.combine(
     format.simple(),
-    format.printf((info) => `${info.level}: ${info.message}`),
+    format.printf((info) => `${info.level}: ${info.message}`)
   ),
 
   exitOnError: false,
@@ -13,24 +13,24 @@ const logger = createLogger({
   transports: [
     new transports.Console({
       level: 'debug',
-      format: format.combine(format.colorize(), format.simple()),
+      format: format.combine(format.colorize(), format.simple())
     }),
     new transports.File({
       filename: './logs/logger.log',
       level: 'info',
-      format: format.combine(format.colorize(), format.json()),
+      format: format.combine(format.colorize(), format.json())
     }),
     new transports.File({
       filename: './logs/error.log',
       level: 'error',
-      format: format.combine(format.colorize(), format.json()),
-    }),
-  ],
+      format: format.combine(format.colorize(), format.json())
+    })
+  ]
 });
 
 logger.url = (request, response, next) => {
   const {
-    method, originalUrl, body, query,
+    method, originalUrl, body, query
   } = request;
   const start = Date.now();
 
@@ -42,7 +42,7 @@ logger.url = (request, response, next) => {
       Method: ${method}, URL: ${decodeURI(originalUrl)},
       Query object: ${JSON.stringify(query)},
       Request body: ${JSON.stringify(body)}, 
-      StatusCode: ${statusCode} [${ms}ms]`,
+      StatusCode: ${statusCode} [${ms}ms]`
     );
   });
 
@@ -52,7 +52,7 @@ logger.url = (request, response, next) => {
 logger.stream = {
   write(message) {
     logger.info(message);
-  },
+  }
 };
 
 module.exports = logger;

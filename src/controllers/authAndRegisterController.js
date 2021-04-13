@@ -30,14 +30,15 @@ module.exports = {
 
   async verifyAccount(request, response) {
     console.log(request.query);
-    if (request.query.token)
-    await userService.verifyAccount(request.query.token)
-      .then((result) => {
-        response.type('json');
-        response.end(JSON.stringify(result));
-      })
-      .catch((err) => {
-        console.error(err.message);
-      });
+    if (request.query.token) {
+      await userService.verifyAccount(request.query.token)
+        .then((result) => {
+          response.type('json');
+          response.end(JSON.stringify(result));
+        })
+        .catch((err) => {
+          console.error(err.message);
+        });
+    }
   }
 };

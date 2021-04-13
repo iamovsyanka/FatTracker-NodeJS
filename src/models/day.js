@@ -5,7 +5,7 @@ module.exports = function (sequelize, DataTypes) {
       autoIncrement: true,
       primaryKey: true
     },
-    totalCalories: {
+    /*totalCalories: {
       type: new DataTypes.VIRTUAL(DataTypes.INTEGER), get: () => {
         let calories = 0;
         calories += meals.forEach((meal)=>{calories+meal.weight});
@@ -22,7 +22,7 @@ module.exports = function (sequelize, DataTypes) {
     totalCarbs: {
       type: DataTypes.INTEGER,
       allowNull: true
-    },
+    },*/
     weight: {
       type: DataTypes.INTEGER,
       allowNull: true
@@ -34,9 +34,9 @@ module.exports = function (sequelize, DataTypes) {
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false
-    },
+    }
   }, {
-    tableName: 'days',
+    tableName: 'days'
   });
 
   Day.associate = function (models) {
@@ -47,7 +47,7 @@ module.exports = function (sequelize, DataTypes) {
 
     Day.hasMany(models.Meal, {
       as: 'meals',
-      foreignKey: 'dayId',
+      foreignKey: 'dayId'
     });
   };
 

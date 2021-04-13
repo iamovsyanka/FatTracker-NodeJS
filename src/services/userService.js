@@ -25,56 +25,61 @@ const login = async function (data) {
   return jwtToken.generateAccessToken(user.id, user.role);
 };
 
-const verifyAccount =  async function(token) {
+const verifyAccount = async function (token) {
   try {
     const decodedToken = jwtToken.verifyToken(token);
     const existUser = await db.models.User.findOne({ where: { email: decodedToken.email } });
 
     //if (!existUser) throw new AppError({status: 404, message: errorMessages.USER_NOT_FOUND});
 
-    return await existUser.update({verified: true});
+    return await existUser.update({ verified: true });
   } catch (err) {
     // if (err instanceof AppError) throw err;
     // throw new AppError({err: err});
   }
 };
 
-const updateInformation = async function(data) {
+const updateInformation = async function (data) {
   return await db.models.User.update({
     height: data.body.height,
     desiredWeight: data.body.desiredWeight,
     birthDay: data.body.birthDay,
     sex: data.body.sex,
     activity: data.body.activity
-  },{
-      where:{
-        id: data.user.id
-      }
-  })
+  }, {
+    where: {
+      id: data.user.id
+    }
+  });
 };
 
-const updatePhoto = async function(data, file) {
+const updatePhoto = async function (data, file) {
   let photo;
   if (file) {
     const fileNameArray = file.originalname.split('.');
     const fileFormat = fileNameArray[fileNameArray.length - 1];
     if (fileNameArray.length === 1 || !(fileFormat === 'png' || fileFormat === 'jpg' || fileFormat === 'jpeg'))
       //throw new AppError({status: 400, message: errorMessages.WRONG_PHOTO_FORMAT});
-{}
-      photo = await fileLoader.savePhoto(file, 'users');
+    {
+    }
+    photo = await fileLoader.savePhoto(file, 'users');
   }
 
-  return await db.models.User.update({ photo: photo }, { where: { id: data.user.id }});
+  return await db.models.User.update({ photo: photo }, { where: { id: data.user.id } });
 };
 
-const countCalories = async function(data) {
-  const user = await db.models.User.find({ where: {
+const countCalories = async function (data) {
+  const user = await db.models.User.find({
+    where: {
       id: data.user.id
     }
   });
 
   const calories = 9.99 * user;
 };
+
+//TODO: удаление пользователя, удаление пользователя админом, восстановление аккаунта
+
 
 module.exports = {
   registration,

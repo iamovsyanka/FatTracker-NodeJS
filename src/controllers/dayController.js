@@ -12,6 +12,17 @@ module.exports = {
       });
   },
 
+  async getDay(request, response) {
+    await dayService.getDay(request)
+      .then((result) => {
+        response.type('json');
+        response.end(JSON.stringify(result));
+      })
+      .catch((err) => {
+        console.error(err.message);
+      });
+  },
+
   async updateCurrentWeight(request, response) {
     await dayService.updateCurrentWeight(request)
       .then((result) => {
@@ -21,6 +32,6 @@ module.exports = {
       .catch((err) => {
         console.error(err.message);
       });
-  },
+  }
 
 };

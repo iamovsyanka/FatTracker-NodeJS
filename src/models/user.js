@@ -58,7 +58,7 @@ module.exports = function (sequelize, DataTypes) {
     requiredCalories: {
       type: DataTypes.INTEGER,
       allowNull: true
-    },
+    }
   }, {
     paranoid: true,
     tableName: 'users'
@@ -75,13 +75,25 @@ module.exports = function (sequelize, DataTypes) {
   User.associate = function (models) {
     User.hasMany(models.Day, {
       as: 'days',
-      foreignKey: 'userId',
+      foreignKey: 'userId'
     });
 
     User.hasMany(models.Product, {
       as: 'products',
       foreignKey: 'userId'
-    })
+    });
+  };
+
+  User.prototype.toJSON = function () {
+    return {
+      id: this.id,
+      role: this.role,
+      email: this.email,
+      name: this.name,
+      photo: this.photo,
+      token: this.token,
+      // tenants: (this.tenants.forEach((tenant)=>{return}))
+    };
   };
 
   return User;

@@ -1,50 +1,49 @@
 module.exports = function (sequelize, DataTypes) {
-  // TODO: userId?
   const Product = sequelize.define('Product', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
-      primaryKey: true,
+      primaryKey: true
     },
     name: {
       type: DataTypes.STRING,
       unique: true,
-      allowNull: false,
+      allowNull: false
     },
     calories: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: false
     },
     fats: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: false
     },
     protein: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: false
     },
     carbs: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: false
     },
     brandName: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
     photo: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: true
     },
     categoryId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: false
     },
     userId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: false
     }
   }, {
-    tableName: 'products',
+    tableName: 'products'
   });
 
   Product.associate = function (models) {
@@ -56,13 +55,13 @@ module.exports = function (sequelize, DataTypes) {
 
     Product.hasMany(models.Meal, {
       as: 'meals',
-      foreignKey: 'productId',
+      foreignKey: 'productId'
     });
 
     Product.belongsTo(models.User, {
       as: 'User',
       foreignKey: 'userId'
-    })
+    });
   };
 
   return Product;

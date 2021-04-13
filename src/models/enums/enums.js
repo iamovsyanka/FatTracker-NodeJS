@@ -7,5 +7,5 @@ module.exports = {
   meals,
   roles,
   sex,
-  activity,
+  activity
 };

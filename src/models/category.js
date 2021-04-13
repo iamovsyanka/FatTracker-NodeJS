@@ -3,19 +3,19 @@ module.exports = function (sequelize, DataTypes) {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
-      primaryKey: true,
+      primaryKey: true
     },
     name: {
       type: DataTypes.STRING,
       unique: true,
-      allowNull: false,
+      allowNull: false
     },
     photo: {
       type: DataTypes.STRING,
-      allowNull: false,
-    },
+      allowNull: false
+    }
   }, {
-    tableName: 'categories',
+    tableName: 'categories'
   });
 
   Category.associate = function (models) {

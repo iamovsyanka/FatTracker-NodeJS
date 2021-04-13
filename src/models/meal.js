@@ -5,37 +5,37 @@ module.exports = function (sequelize, DataTypes) {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
-      primaryKey: true,
+      primaryKey: true
     },
     dayId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: false
     },
     productId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: false
     },
     weight: {
       type: DataTypes.SMALLINT,
-      allowNull: false,
+      allowNull: false
     },
     meal: {
       type: DataTypes.STRING(DataTypes.ENUM(enums.meals)),
-      allowNull: false,
-    },
+      allowNull: false
+    }
   }, {
-    tableName: 'meals',
+    tableName: 'meals'
   });
 
   Meal.associate = function (models) {
     Meal.belongsTo(models.Product, {
       as: 'Product',
-      foreignKey: 'productId',
+      foreignKey: 'productId'
     });
 
     Meal.belongsTo(models.Day, {
       as: 'Day',
-      foreignKey: 'dayId',
+      foreignKey: 'dayId'
     });
   };
 

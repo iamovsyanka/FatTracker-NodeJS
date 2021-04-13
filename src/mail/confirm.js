@@ -4,8 +4,8 @@ const { JWT_SECRET_KEY } = require('../config/config');
 
 module.exports = mailConfirm = async email => {
   const token = jwt.sign({
-    email: email,
-  },  JWT_SECRET_KEY, { expiresIn: '24h' });
+    email: email
+  }, JWT_SECRET_KEY, { expiresIn: '24h' });
 
   const TOKEN_URL = 'http://localhost:8080/api/v1/verify?token=' + token;
 
@@ -21,7 +21,7 @@ module.exports = mailConfirm = async email => {
   });
 };
 
-const getEmail = function() {
+const getEmail = function () {
   return {
     host: 'smtp.yandex.com',
     port: 465,
