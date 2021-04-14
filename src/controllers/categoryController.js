@@ -1,44 +1,44 @@
 const categoryService = require('../services/categoryService');
 
 module.exports = {
-  async getAllCategories(request, response) {
+  async getAllCategories(req, res) {
     await categoryService.getAllCategories()
       .then((result) => {
-        response.type('json');
-        response.end(JSON.stringify(result));
+        res.type('json');
+        res.end(JSON.stringify(result));
       })
       .catch((err) => {
         console.error(err.message);
       });
   },
 
-  async addCategory(request, response) {
-    await categoryService.addCategory(request.body.name, request.file)
+  async addCategory(req, res) {
+    await categoryService.addCategory(req.body.name, req.file)
       .then((result) => {
-        response.type('json');
-        response.end(JSON.stringify(result));
+        res.type('json');
+        res.end(JSON.stringify(result));
       })
       .catch((err) => {
         console.error(err.message);
       });
   },
 
-  async updateCategory(request, response) {
-    await categoryService.updateCategory(request.body, request.file)
+  async updateCategory(req, res) {
+    await categoryService.updateCategory(req.body, req.file)
       .then((result) => {
-        response.type('json');
-        response.end(JSON.stringify(result));
+        res.type('json');
+        res.end(JSON.stringify(result));
       })
       .catch((err) => {
         console.error(err.message);
       });
   },
 
-  async deleteCategory(request, response) {
-    await categoryService.deleteCategory(request.query.id)
+  async deleteCategory(req, res) {
+    await categoryService.deleteCategory(req.query.id)
       .then((result) => {
-        response.type('json');
-        response.end(JSON.stringify(result));
+        res.type('json');
+        res.end(JSON.stringify(result));
       })
       .catch((err) => {
         console.error(err.message);

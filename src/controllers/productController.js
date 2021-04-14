@@ -1,99 +1,99 @@
 const productService = require('../services/productService');
 
 module.exports = {
-  async getAllProducts(request, response) {
+  async getAllProducts(req, res) {
     await productService.getAllProducts()
       .then((result) => {
-        response.type('json');
-        response.end(JSON.stringify(result));
+        res.type('json');
+        res.end(JSON.stringify(result));
       })
       .catch((err) => {
         console.error(err.message);
       });
   },
 
-  async getAllProductsByCategory(request, response) {
-    await productService.getProductsByCategory(request.query.id)
+  async getAllProductsByCategory(req, res) {
+    await productService.getProductsByCategory(req.query.id)
       .then((result) => {
-        response.type('json');
-        response.end(JSON.stringify(result));
+        res.type('json');
+        res.end(JSON.stringify(result));
       })
       .catch((err) => {
         console.error(err.message);
       });
   },
 
-  async addProduct(request, response) {
-    await productService.addProduct(request.body, request.user.id)
+  async addProduct(req, res) {
+    await productService.addProduct(req.body, req.user.id)
       .then((result) => {
-        response.type('json');
-        response.end(JSON.stringify(result));
+        res.type('json');
+        res.end(JSON.stringify(result));
       })
       .catch((err) => {
         console.error(err.message);
       });
   },
 
-  async updatePhotoByUser(request, response) {
-    await productService.updatePhotoByUser(request, request.file)
+  async updatePhotoByUser(req, res) {
+    await productService.updatePhotoByUser(req, req.file)
       .then((result) => {
-        response.type('json');
-        response.end(JSON.stringify(result));
+        res.type('json');
+        res.end(JSON.stringify(result));
       })
       .catch((err) => {
         console.error(err.message);
       });
   },
 
-  async updatePhotoByAdmin(request, response) {
-    await productService.updatePhotoByUser(request, request.file)
+  async updatePhotoByAdmin(req, res) {
+    await productService.updatePhotoByUser(req, req.file)
       .then((result) => {
-        response.type('json');
-        response.end(JSON.stringify(result));
+        res.type('json');
+        res.end(JSON.stringify(result));
       })
       .catch((err) => {
         console.error(err.message);
       });
   },
 
-  async updateProductByUser(request, response) {
-    await productService.updateProductByUser(request.body, request.user)
+  async updateProductByUser(req, res) {
+    await productService.updateProductByUser(req.body, req.user)
       .then((result) => {
-        response.type('json');
-        response.end(JSON.stringify(result));
+        res.type('json');
+        res.end(JSON.stringify(result));
       })
       .catch((err) => {
         console.error(err.message);
       });
   },
 
-  async updateProductByAdmin(request, response) {
-    await productService.updateProductByAdmin(request.body)
+  async updateProductByAdmin(req, res) {
+    await productService.updateProductByAdmin(req.body)
       .then((result) => {
-        response.type('json');
-        response.end(JSON.stringify(result));
+        res.type('json');
+        res.end(JSON.stringify(result));
       })
       .catch((err) => {
         console.error(err.message);
       });
   },
 
-  async deleteProductByUser(request, response) {
-    await productService.deleteProductByUser(request.body.id, request.user)
+  async deleteProductByUser(req, res) {
+    await productService.deleteProductByUser(req.body.id, req.user)
       .then((result) => {
-        response.type('json');
-        response.end(JSON.stringify(result));
+        res.type('json');
+        res.end(JSON.stringify(result));
       })
       .catch((err) => {
         console.error(err.message);
       });
   },
 
-  async deleteProductByAdmin(request, response) {
-    await productService.deleteProductByAdmin(request.body.id)
+  async deleteProductByAdmin(req, res) {
+    await productService.deleteProductByAdmin(req.body.id)
       .then((result) => {
-        response.type('json');
-        response.end(JSON.stringify(result));
+        res.type('json');
+        res.end(JSON.stringify(result));
       })
       .catch((err) => {
         console.error(err.message);

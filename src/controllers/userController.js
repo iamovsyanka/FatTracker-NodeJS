@@ -1,22 +1,22 @@
 const userService = require('../services/userService');
 
 module.exports = {
-  async updateInformation(request, response) {
-    await userService.updateInformation(request)
+  async updateInformation(req, res) {
+    await userService.updateInformation(req)
       .then((result) => {
-        response.type('json');
-        response.end(JSON.stringify(result));
+        res.type('json');
+        res.end(JSON.stringify(result));
       })
       .catch((err) => {
         console.error(err.message);
       });
   },
 
-  async updatePhoto(request, response) {
-    await userService.updatePhoto(request, request.file)
+  async updatePhoto(req, res) {
+    await userService.updatePhoto(req, req.file)
       .then((result) => {
-        response.type('json');
-        response.end(JSON.stringify(result));
+        res.type('json');
+        res.end(JSON.stringify(result));
       })
       .catch((err) => {
         console.error(err.message);

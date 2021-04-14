@@ -1,66 +1,66 @@
 const mealService = require('../services/mealService');
 
 module.exports = {
-  async getMeal(request, response) {
-    await mealService.getMealById(request.query.id)
+  async getMeal(req, res) {
+    await mealService.getMealById(req.query.id)
       .then((result) => {
-        response.type('json');
-        response.end(JSON.stringify(result));
+        res.type('json');
+        res.end(JSON.stringify(result));
       })
       .catch((err) => {
         console.error(err.message);
       });
   },
 
-  async getMealsByDay(request, response) {
-    await mealService.getMealsByDayId(request.query)
+  async getMealsByDay(req, res) {
+    await mealService.getMealsByDayId(req.query)
       .then((result) => {
-        response.type('json');
-        response.end(JSON.stringify(result));
+        res.type('json');
+        res.end(JSON.stringify(result));
       })
       .catch((err) => {
         console.error(err.message);
       });
   },
 
-  async getAllMealsByDay(request, response) {
-    await mealService.getAllMealsByDayId(request.query.id)
+  async getAllMealsByDay(req, res) {
+    await mealService.getAllMealsByDayId(req.query.id)
       .then((result) => {
-        response.type('json');
-        response.end(JSON.stringify(result));
+        res.type('json');
+        res.end(JSON.stringify(result));
       })
       .catch((err) => {
         console.error(err.message);
       });
   },
 
-  async addMeal(request, response) {
-    await mealService.addMeal(request.body)
+  async addMeal(req, res) {
+    await mealService.addMeal(req.body)
       .then((result) => {
-        response.type('json');
-        response.end(JSON.stringify(result));
+        res.type('json');
+        res.end(JSON.stringify(result));
       })
       .catch((err) => {
         console.error(err.message);
       });
   },
 
-  async updateMeal(request, response) {
-    await mealService.updateMeal(request.body)
+  async updateMeal(req, res) {
+    await mealService.updateMeal(req.body)
       .then((result) => {
-        response.type('json');
-        response.end(JSON.stringify(result));
+        res.type('json');
+        res.end(JSON.stringify(result));
       })
       .catch((err) => {
         console.error(err.message);
       });
   },
 
-  async deleteMeal(request, response) {
-    await mealService.deleteMeal(request.query.id)
+  async deleteMeal(req, res) {
+    await mealService.deleteMeal(req.query.id)
       .then((result) => {
-        response.type('json');
-        response.end(JSON.stringify(result));
+        res.type('json');
+        res.end(JSON.stringify(result));
       })
       .catch((err) => {
         console.error(err.message);

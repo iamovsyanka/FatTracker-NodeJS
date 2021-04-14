@@ -1,14 +1,16 @@
 const userService = require('../services/userService');
 const { HTTP_HEADER_AUTHORIZATION } = require('../config/config');
+const errMessages = require('../errors/errMessages');
+const error = require('../errors/appError');
 
 module.exports = {
-  async authUser(request, response) {
-    if (!(request.body.email && request.body.password)) {
-
+  async authUser(req, res) {
+    if (!(req.body.email && req.body.password)) {
+      return res.status(400).json(new error({status: 400, message: errMessages.BAD_DATA}));
     }
-    await userService.login(request.body)
+    await userService.login(req.body)
       .then((token) => {
-        response
+        res
           .header(HTTP_HEADER_AUTHORIZATION, token)
           .send({ token });
       })
@@ -17,24 +19,27 @@ module.exports = {
       });
   },
 
-  async registerUser(request, response) {
-    await userService.registration(request.body)
+  async registerUser(req, res) {
+    if (!(req.body.email && req.body.password && req.body.name)) {
+      return res.status(400).json(new error({status: 400, message: errMessages.BAD_DATA}));
+    }
+    await userService.registration(req.body)
       .then((result) => {
-        response.type('json');
-        response.end(JSON.stringify(result));
+        res.type('json');
+        res.end(JSON.stringify(result));
       })
       .catch((err) => {
         console.error(err.message);
       });
   },
 
-  async verifyAccount(request, response) {
-    console.log(request.query);
-    if (request.query.token) {
-      await userService.verifyAccount(request.query.token)
+  async verifyAccount(req, res) {
+    console.log(req.query);
+    if (req.query.token) {
+      await userService.verifyAccount(req.query.token)
         .then((result) => {
-          response.type('json');
-          response.end(JSON.stringify(result));
+          res.type('json');
+          res.end(JSON.stringify(result));
         })
         .catch((err) => {
           console.error(err.message);

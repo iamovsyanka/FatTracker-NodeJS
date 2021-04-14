@@ -1,33 +1,33 @@
 const dayService = require('../services/dayService');
 
 module.exports = {
-  async addDay(request, response) {
-    await dayService.addDay(request)
+  async addDay(req, res) {
+    await dayService.addDay(req)
       .then((result) => {
-        response.type('json');
-        response.end(JSON.stringify(result));
+        res.type('json');
+        res.end(JSON.stringify(result));
       })
       .catch((err) => {
         console.error(err.message);
       });
   },
 
-  async getDay(request, response) {
-    await dayService.getDay(request)
+  async getDay(req, res) {
+    await dayService.getDay(req)
       .then((result) => {
-        response.type('json');
-        response.end(JSON.stringify(result));
+        res.type('json');
+        res.end(JSON.stringify(result));
       })
       .catch((err) => {
         console.error(err.message);
       });
   },
 
-  async updateCurrentWeight(request, response) {
-    await dayService.updateCurrentWeight(request)
+  async updateCurrentWeight(req, res) {
+    await dayService.updateCurrentWeight(req)
       .then((result) => {
-        response.type('json');
-        response.end(JSON.stringify(result));
+        res.type('json');
+        res.end(JSON.stringify(result));
       })
       .catch((err) => {
         console.error(err.message);
