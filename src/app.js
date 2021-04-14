@@ -11,6 +11,7 @@ const adminRouter = require('./routers/adminRouter');
 const mealRouter = require('./routers/mealRouter');
 const authMiddleware = require('./middlewares/authMiddleware');
 const authAdminMiddleware = require('./middlewares/authAdminMiddleware');
+const errorMiddleware = require('./middlewares/errorMiddleware');
 
 const app = express();
 // const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
@@ -27,6 +28,7 @@ app
   .use(express.json())
   // .use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
   .use(logger.url)
+  .use(errorMiddleware)
   .use('/api/v1', authRouter)
   .use('/api/v1/admin', authAdminMiddleware, adminRouter)
   .use('/api/v1/category', authMiddleware, categoryRouter)
