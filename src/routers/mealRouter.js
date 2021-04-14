@@ -1,7 +1,7 @@
 const express = require('express');
 const mealController = require('../controllers/mealController');
 
-const mealRouter = express.Route();
+const mealRouter = express.Router();
 
 mealRouter.get('/get', mealController.getMeal);
 mealRouter.get('/getByDay', mealController.getMealsByDay);
