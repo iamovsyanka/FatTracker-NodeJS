@@ -1,7 +1,10 @@
 const db = require('../db/db');
 const fileLoader = require('../fileLoader/fileLoader');
 
-const getAllCategories = async () => await db.models.Category.findAll();
+const getAllCategories = async (page, limit) => await db.models.Category.findAndCountAll({
+  limit: limit,
+  offset: page ? page * limit : 0
+});
 
 const addCategory = async (name, file) => {
   const category = await db.models.Category.findOne({ where: { name: name } });
