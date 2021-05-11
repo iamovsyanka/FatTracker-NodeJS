@@ -14,7 +14,7 @@ function savePhoto(file, folder) {
     newPath = './photos/' + folder + '/' + filePath;
   fs.writeFileSync(newPath, file.buffer);
 
-  return newPath;
+  return folder + '/' + filePath;
 }
 
 function prepareDir(parentDir) {
