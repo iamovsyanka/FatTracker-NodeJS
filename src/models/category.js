@@ -10,6 +10,10 @@ module.exports = function (sequelize, DataTypes) {
       unique: true,
       allowNull: false
     },
+    description: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     photo: {
       type: DataTypes.STRING,
       allowNull: false
