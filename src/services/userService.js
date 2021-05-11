@@ -3,9 +3,10 @@ const db = require('../db/db');
 const jwtToken = require('../token/jwt');
 const fileLoader = require('../fileLoader/fileLoader');
 const confirm = require('../mail/confirm');
+const AppError = require('../errors/appError');
 
 const registration = async (data) => {
-  await db.models.User.create({
+  const newUser = await db.models.User.create({
     email: data.email,
     name: data.name,
     password: data.password,
@@ -14,12 +15,14 @@ const registration = async (data) => {
   }).catch(err => console.error(err));
 
   //await confirm(data.email);
+
+  return newUser;
 };
 
 const login = async function (data) {
   const user = await db.models.User.findOne({ where: { email: data.email } });
   if (!user || !(await bcrypt.compare(data.password, user.password))) {
-    // return response.sendStatus(403);
+    throw new AppError({status: 404, message: 'User not found'})
   }
 
   return jwtToken.generateAccessToken(user.id, user.role);
@@ -69,7 +72,7 @@ const updatePhoto = async function (data, file) {
 };
 
 const countCalories = async function (data) {
-  const user = await db.models.User.find({
+  const user = await db.models.User.findOne({
     where: {
       id: data.user.id
     }
@@ -78,13 +81,56 @@ const countCalories = async function (data) {
   const calories = 9.99 * user;
 };
 
-//TODO: удаление пользователя, удаление пользователя админом, восстановление аккаунта
+const getInfo = async function (id) {
+  return await db.models.User.findOne({
+    where: {
+      id: id
+    }
+  });
+};
 
+const deleteUser = function (id) {
+  return db.models.User.destroy({
+    where: {
+      id: id
+    }
+  });
+};
+
+const deleteUserByAdmin = function (id) {
+  return db.models.User.destroy({
+    where: {
+      id: id
+    }, paranoid: false
+  });
+};
+
+const restoreUserByAdmin = function (id) {
+  return db.models.User.update({ deletedAt: null }, {
+    where: {
+      id: id
+    }, paranoid: false
+  });
+};
+
+const restoreUser = function (data) {
+  return db.models.User.update({ deletedAt: null }, {
+    where: {
+      email: data.email,
+      password: data.password
+    }, paranoid: true
+  });
+};
 
 module.exports = {
   registration,
   login,
   verifyAccount,
   updateInformation,
-  updatePhoto
+  updatePhoto,
+  getInfo,
+  deleteUser,
+  deleteUserByAdmin,
+  restoreUserByAdmin,
+  restoreUser
 };
