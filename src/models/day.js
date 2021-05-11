@@ -5,28 +5,6 @@ module.exports = function (sequelize, DataTypes) {
       autoIncrement: true,
       primaryKey: true
     },
-    /*totalCalories: {
-      type: new DataTypes.VIRTUAL(DataTypes.INTEGER), get: () => {
-        let calories = 0;
-        calories += meals.forEach((meal)=>{calories+meal.weight});
-      }
-    },
-    totalFats: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    totalProtein: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    totalCarbs: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },*/
-    weight: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
     date: {
       type: DataTypes.DATEONLY,
       allowNull: false
@@ -49,6 +27,18 @@ module.exports = function (sequelize, DataTypes) {
       as: 'meals',
       foreignKey: 'dayId'
     });
+  };
+
+  Day.prototype.toJSON = function () {
+    return {
+      id: this.id,
+      userId: this.userId,
+      date: this.date,
+      totalCalories: +this.totalCalories,
+      totalFats: +this.totalFats,
+      totalProtein: +this.totalProtein,
+      totalCarbs: +this.totalCarbs
+    }
   };
 
   return Day;
