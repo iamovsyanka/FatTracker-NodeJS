@@ -1,0 +1,157 @@
+openapi: 3.0.0
+
+info:
+  title: FatTracker
+  description: Postavte 8
+  version: 1.1.1
+
+servers:
+  - url: /
+
+tags:
+  - name: auth
+  - name: admin
+  - name: user
+  - name: category
+  - name: day
+  - name: product
+  - name: meal
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        email:
+          type: string
+        name:
+          type: string
+        verified:
+          type: boolean
+        height:
+          type: integer
+        desiredWeight:
+          type: integer
+        photo:
+          type: string
+        role:
+          type: string
+        sex:
+          type: string
+        birthDay:
+          type: string
+        activity:
+          type: integer
+        requiredCalories:
+          type: integer
+  # 1) Define the security scheme type (HTTP bearer)
+  securitySchemes:
+    bearerAuth:            # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT    # optional, arbitrary value for documentation purposes
+# 2) Apply the security globally to all operations
+  security:
+    - bearerAuth: []         # use the same name as above
+  responses:
+    UnauthorizedError:
+      description: Access token is missing or invalid
+
+paths:
+  /api/v1/user/getInfo:
+    get:
+      tags:
+        - user
+      summary: Get user by id.
+      description: Get information about user.
+      parameters:
+        - $ref: "#/components/parameters/auth"
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+  /api/v1/login:
+    post:
+      tags:
+        - auth
+      security:
+        []
+      summary: Login
+      description: Logins a user and returns a JWT-token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              title: example
+              properties:
+                email:
+                  type: string
+                  description: email
+                password:
+                  type: string
+                  description: Password
+              required:
+                - email
+                - password
+      responses:
+        200:
+          description: Successful login.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                description: JWT Token
+        403:
+          description: Incorrect email or password
+  /api/v1/register:
+    post:
+      tags:
+        - auth
+      security:
+        []
+      summary: Registration
+      description: Logins a user and returns a JWT-token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              title: example
+              properties:
+                email:
+                  type: string
+                  description: email
+                name:
+                  type: string
+                  description: name
+                password:
+                  type: string
+                  description: Password
+              required:
+                - email
+                - name
+                - password
+      responses:
+        200:
+          description: Successful register.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        403:
+          description: Incorrect email or password

@@ -1,5 +1,7 @@
 const express = require('express.oi');
-// const swaggerUI = require('swagger-ui-express');
+const swaggerUI = require('swagger-ui-express');
+const yaml = require('yamljs');
+const path = require('path');
 
 const logger = require('./logging/logger');
 const categoryRouter = require('./routers/categoryRouter');
@@ -14,7 +16,7 @@ const authAdminMiddleware = require('./middlewares/authAdminMiddleware');
 const errorMiddleware = require('./middlewares/errorMiddleware');
 
 const app = express();
-// const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
+const swaggerDocument = yaml.load(path.join(__dirname, '../doc/api.yaml'));
 
 const filesHelper = require('./fileLoader/fileLoader');
 
@@ -23,10 +25,20 @@ filesHelper.createDir('./photos', 'categories');
 filesHelper.createDir('./photos', 'products');
 filesHelper.createDir('./photos', 'users');
 
+app.use(function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+  next();
+});
+
 app.use(express.static('./photos'));
 app
   .use(express.json())
-  // .use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
+  .use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
   .use(logger.url)
   .use(errorMiddleware)
   .use('/api/v1', authRouter)
