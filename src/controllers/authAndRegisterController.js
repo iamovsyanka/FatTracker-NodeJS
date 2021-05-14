@@ -4,7 +4,6 @@ const errMessages = require('../errors/errMessages');
 const error = require('../errors/appError');
 
 module.exports = {
-  //TODO 404
   async authUser(req, res) {
     try {
       if (!(req.body.email && req.body.password)) {

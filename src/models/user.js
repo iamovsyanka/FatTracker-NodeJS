@@ -90,9 +90,7 @@ module.exports = function (sequelize, DataTypes) {
       role: this.role,
       email: this.email,
       name: this.name,
-      photo: this.photo,
-      token: this.token,
-      // tenants: (this.tenants.forEach((tenant)=>{return}))
+      photo: this.photo
     };
   };
 

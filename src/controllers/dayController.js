@@ -1,37 +1,22 @@
 const dayService = require('../services/dayService');
+const error = require('../errors/appError');
 
 module.exports = {
   async addDay(req, res) {
-    await dayService.addDay(req)
-      .then((result) => {
-        res.type('json');
-        res.end(JSON.stringify(result));
-      })
-      .catch((err) => {
-        console.error(err.message);
-      });
+    try {
+      const day = await dayService.addDay(req);
+      res.end(JSON.stringify(day));
+    } catch (ex) {
+      return res.status(ex.status).json(new error({ status: ex.status, message: ex.message }));
+    }
   },
 
   async getDay(req, res) {
-    await dayService.getDay(req)
-      .then((result) => {
-        res.type('json');
-        res.end(JSON.stringify(result));
-      })
-      .catch((err) => {
-        console.error(err.message);
-      });
-  },
-
-  async updateCurrentWeight(req, res) {
-    await dayService.updateCurrentWeight(req)
-      .then((result) => {
-        res.type('json');
-        res.end(JSON.stringify(result));
-      })
-      .catch((err) => {
-        console.error(err.message);
-      });
+    try {
+      const day = await dayService.getDay(req);
+      res.end(JSON.stringify(day));
+    } catch (ex) {
+      return res.status(ex.status).json(new error({ status: ex.status, message: ex.message }));
+    }
   }
-
 };
