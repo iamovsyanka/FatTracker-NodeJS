@@ -1,26 +1,33 @@
 const productService = require('../services/productService');
+const errMessages = require('../errors/errMessages');
+const error = require('../errors/appError');
 
 module.exports = {
   async getAllProducts(req, res) {
-    await productService.getAllProducts()
-      .then((result) => {
-        res.type('json');
-        res.end(JSON.stringify(result));
-      })
-      .catch((err) => {
-        console.error(err.message);
-      });
+    try {
+      const products = await productService.getAllProducts();
+      res.end(JSON.stringify(products));
+    } catch (ex) {
+      return res.status(500).json(new error({ status: 500, message: ex.message }));
+    }
+  },
+
+  async searchByName(req, res) {
+    try {
+      const products = await productService.getProductsByName(req.query.name);
+      res.end(JSON.stringify(products));
+    } catch (ex) {
+      return res.status(500).json(new error({ status: 500, message: ex.message, stack: ex.stack }));
+    }
   },
 
   async getAllProductsByCategory(req, res) {
-    await productService.getProductsByCategory(req.query.id)
-      .then((result) => {
-        res.type('json');
-        res.end(JSON.stringify(result));
-      })
-      .catch((err) => {
-        console.error(err.message);
-      });
+    try {
+      const products = await productService.getProductsByCategory(req.query.id);
+      res.end(JSON.stringify(products));
+    } catch (ex) {
+      return res.status(500).json(new error({ status: 500, message: ex.message }));
+    }
   },
 
   async addProduct(req, res) {

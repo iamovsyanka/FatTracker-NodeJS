@@ -9,7 +9,7 @@ class AppError extends Error {
     this.type = (settings.type || 'Application');
     this.message = (settings.message || errorMessages.SERVER_ERROR);
     this.err = (settings.err || {});
-    this.stackOfParentErr = this.err.stack;
+    this.stack = settings.stack;
     this.details = (settings.details || {});
     this.status = (settings.status || 500);
     this.status >= 500 ? logger.error(this) : logger.warn(this);

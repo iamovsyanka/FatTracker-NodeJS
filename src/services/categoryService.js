@@ -6,8 +6,8 @@ const getAllCategories = async (page, limit) => await db.models.Category.findAnd
   offset: page ? page * limit : 0
 });
 
-const addCategory = async (name, file) => {
-  const category = await db.models.Category.findOne({ where: { name: name } });
+const addCategory = async (data, file) => {
+  const category = await db.models.Category.findOne({ where: { name: data.name } });
 
   if (category) {
 
@@ -24,7 +24,8 @@ const addCategory = async (name, file) => {
     }
 
     return await db.models.Category.create({
-      name: name,
+      name: data.name,
+      description: data.description,
       photo: photo
     });
   }

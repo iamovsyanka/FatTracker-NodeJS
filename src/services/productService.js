@@ -11,6 +11,14 @@ const getProductsByCategory = async function (id) {
   });
 };
 
+const getProductsByName = async function (name) {
+  return await db.models.Product.findAll({
+    where: db.sequelize.where(
+      db.sequelize.fn('lower', db.sequelize.col('name')),
+     {[Op.like]: `${name.toLowerCase()}%`})
+  });
+};
+
 const addProduct = async function (data, userId) {
   const product = await db.models.Product.findOne({ where: { name: data.name } });
 
@@ -130,6 +138,7 @@ const deleteProductByAdmin = (id) => {
 module.exports = {
   getAllProducts,
   getProductsByCategory,
+  getProductsByName,
   addProduct,
   updatePhotoByUser,
   updatePhotoByAdmin,

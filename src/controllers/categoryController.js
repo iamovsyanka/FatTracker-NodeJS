@@ -18,7 +18,7 @@ module.exports = {
         return res.status(400).json(new error({ status: 400, message: errMessages.BAD_DATA }));
       }
 
-      const newCategory = await categoryService.addCategory(req.body.name, req.file);
+      const newCategory = await categoryService.addCategory(req.body, req.file);
       res.end(JSON.stringify(newCategory));
     } catch (ex) {
       return res.status(500).json(new error({ status: 500, message: ex.message }));
