@@ -3,7 +3,7 @@ const { Op } = require('sequelize');
 const moment = require('moment');
 const AppError = require('../errors/appError');
 
-const addDay = async function (data) {
+const add = async function (data) {
   const day = await db.models.Day.findOne({
     where: {
       [Op.and]: {
@@ -21,7 +21,7 @@ const addDay = async function (data) {
   }
 };
 
-const getDay = async function (data) {
+const get = async function (data) {
   try {
     const day = await db.models.Day.findOne({
       where: {
@@ -63,6 +63,6 @@ const getDay = async function (data) {
 };
 
 module.exports = {
-  addDay,
-  getDay
+  add,
+  get
 };

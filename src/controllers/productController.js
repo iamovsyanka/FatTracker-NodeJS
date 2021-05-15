@@ -1,109 +1,104 @@
 const productService = require('../services/productService');
-const errMessages = require('../errors/errMessages');
 const error = require('../errors/appError');
 
 module.exports = {
-  async getAllProducts(req, res) {
-    try {
-      const products = await productService.getAllProducts();
-      res.end(JSON.stringify(products));
-    } catch (ex) {
-      return res.status(500).json(new error({ status: 500, message: ex.message }));
-    }
-  },
-
   async searchByName(req, res) {
     try {
-      const products = await productService.getProductsByName(req.query.name);
+      const products = await productService.getByName(req.body.name);
+      res.type('json');
       res.end(JSON.stringify(products));
     } catch (ex) {
-      return res.status(500).json(new error({ status: 500, message: ex.message, stack: ex.stack }));
+      return res.status(ex.status).json(new error({ status: ex.status, message: ex.message }));
     }
   },
 
-  async getAllProductsByCategory(req, res) {
+  async getById(req, res) {
     try {
-      const products = await productService.getProductsByCategory(req.query.id);
-      res.end(JSON.stringify(products));
+      const product = await productService.getById(req.body.id);
+      res.type('json');
+      res.end(JSON.stringify(product));
     } catch (ex) {
-      return res.status(500).json(new error({ status: 500, message: ex.message }));
+      return res.status(ex.status).json(new error({ status: ex.status, message: ex.message }));
     }
   },
 
-  async addProduct(req, res) {
-    await productService.addProduct(req.body, req.user.id)
-      .then((result) => {
-        res.type('json');
-        res.end(JSON.stringify(result));
-      })
-      .catch((err) => {
-        console.error(err.message);
-      });
+  async getByCategory(req, res) {
+    try {
+      const products = await productService.getByCategory(req.query.id);
+      res.type('json');
+      res.end(JSON.stringify(products));
+    } catch (ex) {
+      return res.status(ex.status).json(new error({ status: ex.status, message: ex.message }));
+    }
+  },
+
+  async add(req, res) {
+    try {
+      const addedProduct = await productService.add(req.body, req.user.id);
+      res.type('json');
+      res.end(JSON.stringify(addedProduct));
+    } catch (ex) {
+      return res.status(ex.status).json(new error({ status: ex.status, message: ex.message }));
+    }
   },
 
   async updatePhotoByUser(req, res) {
-    await productService.updatePhotoByUser(req, req.file)
-      .then((result) => {
-        res.type('json');
-        res.end(JSON.stringify(result));
-      })
-      .catch((err) => {
-        console.error(err.message);
-      });
+    try {
+      const updatedProduct = await productService.updatePhotoByUser(req, req.file);
+      res.type('json');
+      res.end(JSON.stringify(updatedProduct));
+    } catch (ex) {
+      return res.status(ex.status).json(new error({ status: ex.status, message: ex.message }));
+    }
   },
 
   async updatePhotoByAdmin(req, res) {
-    await productService.updatePhotoByUser(req, req.file)
-      .then((result) => {
-        res.type('json');
-        res.end(JSON.stringify(result));
-      })
-      .catch((err) => {
-        console.error(err.message);
-      });
+    try {
+      const updatedProduct = await productService.updatePhotoByAdmin(req, req.file);
+      res.type('json');
+      res.end(JSON.stringify(updatedProduct));
+    } catch (ex) {
+      return res.status(ex.status).json(new error({ status: ex.status, message: ex.message }));
+    }
   },
 
-  async updateProductByUser(req, res) {
-    await productService.updateProductByUser(req.body, req.user)
-      .then((result) => {
-        res.type('json');
-        res.end(JSON.stringify(result));
-      })
-      .catch((err) => {
-        console.error(err.message);
-      });
+  async updateByUser(req, res) {
+    try {
+      const updatedProduct = await productService.updateByUser(req.body, req.user);
+      res.type('json');
+      res.end(JSON.stringify(updatedProduct));
+    } catch (ex) {
+      return res.status(ex.status).json(new error({ status: ex.status, message: ex.message }));
+    }
   },
 
-  async updateProductByAdmin(req, res) {
-    await productService.updateProductByAdmin(req.body)
-      .then((result) => {
-        res.type('json');
-        res.end(JSON.stringify(result));
-      })
-      .catch((err) => {
-        console.error(err.message);
-      });
+  async updateByAdmin(req, res) {
+    try {
+      const updatedProduct = await productService.updateByAdmin(req.body);
+      res.type('json');
+      res.end(JSON.stringify(updatedProduct));
+    } catch (ex) {
+      return res.status(ex.status).json(new error({ status: ex.status, message: ex.message }));
+    }
   },
 
-  async deleteProductByUser(req, res) {
-    await productService.deleteProductByUser(req.body.id, req.user)
-      .then((result) => {
-        res.type('json');
-        res.end(JSON.stringify(result));
-      })
-      .catch((err) => {
-        console.error(err.message);
-      });
+  async deleteByUser(req, res) {
+    try {
+      const deletedProduct = await productService.deleteByUser(req.body.id, req.user);
+      res.type('json');
+      res.end(JSON.stringify(deletedProduct));
+    } catch (ex) {
+      return res.status(ex.status).json(new error({ status: ex.status, message: ex.message }));
+    }
   },
 
-  async deleteProductByAdmin(req, res) {
-    await productService.deleteProductByAdmin(req.body.id)
-      .then((result) => {
-        res.type('json');
-        res.end(JSON.stringify(result));
-      })
-      .catch((err) => {
-        console.error(err.message);
-      });
+  async deleteByAdmin(req, res) {
+    try {
+      const deletedProduct = await productService.deleteByAdmin(req.body.id);
+      res.type('json');
+      res.end(JSON.stringify(deletedProduct));
+    } catch (ex) {
+      return res.status(ex.status).json(new error({ status: ex.status, message: ex.message }));
+    }
   }
 };

@@ -4,7 +4,7 @@ const errMessages = require('../errors/errMessages');
 const error = require('../errors/appError');
 
 module.exports = {
-  async authUser(req, res) {
+  async auth(req, res) {
     try {
       if (!(req.body.email && req.body.password)) {
         return res.status(400).json(new error({ status: 400, message: errMessages.BAD_DATA }));
@@ -17,13 +17,14 @@ module.exports = {
     }
   },
 
-  async registerUser(req, res) {
+  async register(req, res) {
     try {
       if (!(req.body.email && req.body.password && req.body.name)) {
         return res.status(400).json(new error({ status: 400, message: errMessages.BAD_DATA }));
       }
 
       const newUser = await userService.registration(req.body);
+      res.type('json');
       res.end(JSON.stringify(newUser));
     } catch (ex) {
       return res.status(ex.status).json(new error({ status: 500, message: ex.message}));
@@ -34,6 +35,7 @@ module.exports = {
     try {
       if (req.query.token) {
         const user = await userService.verifyAccount(req.query.token);
+        res.type('json');
         res.end(JSON.stringify(user));
       }
     } catch (ex) {

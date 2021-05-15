@@ -9,19 +9,8 @@ const getMealById = async function (id) {
   });
 };
 
-const getMealsByDayId = async function (data) {
-  return await db.models.Meal.findOne({
-    where: {
-      [Op.and]: {
-        dayId: data.dayId,
-        meal: data.meal
-      }
-    }
-  });
-};
-
 const getAllMealsByDayId = async function (dayId) {
-  return await db.models.Meal.findOne({
+  return await db.models.Meal.findAll({
     where: {
       dayId: dayId
     }
@@ -62,6 +51,5 @@ module.exports = {
   updateMeal,
   deleteMeal,
   getMealById,
-  getAllMealsByDayId,
-  getMealsByDayId
+  getAllMealsByDayId
 };

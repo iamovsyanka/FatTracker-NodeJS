@@ -39,5 +39,20 @@ module.exports = function (sequelize, DataTypes) {
     });
   };
 
+  Meal.prototype.toJSON = function () {
+    return {
+      id: +this.id,
+      dayId: +this.dayId,
+      productId: +this.productId,
+      productName: this.productName,
+      weight: +this.weight,
+      totalCalories: +this.totalCalories,
+      totalFats: +this.totalFats,
+      totalProtein: +this.totalProtein,
+      totalCarbs: +this.totalCarbs,
+      meal: this.meal
+    }
+  };
+
   return Meal;
 };

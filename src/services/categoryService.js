@@ -1,12 +1,12 @@
 const db = require('../db/db');
 const fileLoader = require('../fileLoader/fileLoader');
 
-const getAllCategories = async (page, limit) => await db.models.Category.findAndCountAll({
+const getAll = async (page, limit) => await db.models.Category.findAndCountAll({
   limit: limit,
   offset: page ? page * limit : 0
 });
 
-const addCategory = async (data, file) => {
+const add = async (data, file) => {
   const category = await db.models.Category.findOne({ where: { name: data.name } });
 
   if (category) {
@@ -31,7 +31,7 @@ const addCategory = async (data, file) => {
   }
 };
 
-const updateCategory = async (data, file) => {
+const update = async (data, file) => {
   let photo;
   if (file) {
     const fileNameArray = file.originalname.split('.');
@@ -53,13 +53,13 @@ const updateCategory = async (data, file) => {
   });
 };
 
-const deleteCategory = (id) => {
+const drop = (id) => {
   return db.models.Category.destroy({ where: { id: id } });
 };
 
 module.exports = {
-  getAllCategories,
-  addCategory,
-  updateCategory,
-  deleteCategory
+  getAll,
+  add,
+  update,
+  drop
 };

@@ -3,7 +3,7 @@ const dayController = require('../controllers/dayController');
 
 const dayRouter = express.Router();
 
-dayRouter.post('/get', dayController.getDay);
-dayRouter.post('/add', dayController.addDay);
+dayRouter.post('/get', dayController.get);
+dayRouter.post('/add', dayController.add);
 
 module.exports = dayRouter;

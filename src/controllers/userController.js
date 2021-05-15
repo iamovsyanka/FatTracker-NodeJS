@@ -1,5 +1,4 @@
 const userService = require('../services/userService');
-const errMessages = require('../errors/errMessages');
 const error = require('../errors/appError');
 
 module.exports = {

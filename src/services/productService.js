@@ -2,16 +2,20 @@ const db = require('../db/db');
 const { Op } = require('sequelize');
 const fileLoader = require('../fileLoader/fileLoader');
 
-const getAllProducts = async () => await db.models.Product.findAll();
-
-const getProductsByCategory = async function (id) {
+const getByCategory = async function (id) {
   return await db.models.Product.findAll({
     include: [{ model: db.models.Category, as: 'Category', required: true }],
     where: { categoryId: id }
   });
 };
 
-const getProductsByName = async function (name) {
+const getById = async function (id) {
+  return await db.models.Product.findOne({
+    where: { id: id }
+  });
+};
+
+const getByName = async function (name) {
   return await db.models.Product.findAll({
     where: db.sequelize.where(
       db.sequelize.fn('lower', db.sequelize.col('name')),
@@ -19,7 +23,7 @@ const getProductsByName = async function (name) {
   });
 };
 
-const addProduct = async function (data, userId) {
+const add = async function (data, userId) {
   const product = await db.models.Product.findOne({ where: { name: data.name } });
 
   if (product) {
@@ -79,7 +83,7 @@ const updatePhotoByAdmin = async function (data, file) {
   });
 };
 
-const updateProductByUser = async function (data, user) {
+const updateByUser = async function (data, user) {
   return await db.models.Product.update({
       name: data.name,
       calories: data.calories,
@@ -99,7 +103,7 @@ const updateProductByUser = async function (data, user) {
     });
 };
 
-const updateProductByAdmin = async function (data) {
+const updateByAdmin = async function (data) {
   return await db.models.Product.update({
       name: data.name,
       calories: data.calories,
@@ -116,7 +120,7 @@ const updateProductByAdmin = async function (data) {
     });
 };
 
-const deleteProductByUser = (id, user) => {
+const deleteByUser = (id, user) => {
   return db.models.Product.destroy({
     where: {
       [Op.and]: {
@@ -127,7 +131,7 @@ const deleteProductByUser = (id, user) => {
   });
 };
 
-const deleteProductByAdmin = (id) => {
+const deleteByAdmin = (id) => {
   return db.models.Product.destroy({
     where: {
       id: id
@@ -136,14 +140,14 @@ const deleteProductByAdmin = (id) => {
 };
 
 module.exports = {
-  getAllProducts,
-  getProductsByCategory,
-  getProductsByName,
-  addProduct,
+  getByCategory,
+  getByName,
+  getById,
+  add,
   updatePhotoByUser,
   updatePhotoByAdmin,
-  updateProductByUser,
-  updateProductByAdmin,
-  deleteProductByUser,
-  deleteProductByAdmin
+  updateByUser,
+  updateByAdmin,
+  deleteByUser,
+  deleteByAdmin
 };

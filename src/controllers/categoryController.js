@@ -3,46 +3,47 @@ const errMessages = require('../errors/errMessages');
 const error = require('../errors/appError');
 
 module.exports = {
-  async getAllCategories(req, res) {
+  async getAll(req, res) {
     try {
-      const categories = await categoryService.getAllCategories(req.query.page, req.query.size);
+      const categories = await categoryService.getAll(req.query.page, req.query.size);
+      res.type('json');
       res.end(JSON.stringify(categories));
     } catch (ex) {
-      return res.status(500).json(new error({ status: 500, message: ex.message }));
+      return res.status(ex.status).json(new error({ status: ex.status, message: ex.message }));
     }
   },
 
-  async addCategory(req, res) {
+  async add(req, res) {
     try {
-      if(!(req.body.name && req.file)) {
+      if (!(req.body.name && req.file)) {
         return res.status(400).json(new error({ status: 400, message: errMessages.BAD_DATA }));
       }
 
-      const newCategory = await categoryService.addCategory(req.body, req.file);
-      res.end(JSON.stringify(newCategory));
+      const addedCategory = await categoryService.add(req.body, req.file);
+      res.type('json');
+      res.end(JSON.stringify(addedCategory));
     } catch (ex) {
-      return res.status(500).json(new error({ status: 500, message: ex.message }));
+      return res.status(ex.status).json(new error({ status: ex.status, message: ex.message }));
     }
   },
 
-  //TODO validation
-  async updateCategory(req, res) {
+  async update(req, res) {
     try {
-      const updatedCategory = await categoryService.updateCategory(req.body, req.file);
+      const updatedCategory = await categoryService.update(req.body, req.file);
+      res.type('json');
       res.end(JSON.stringify(updatedCategory));
     } catch (ex) {
-      return res.status(500).json(new error({ status: 500, message: ex.message }));
+      return res.status(ex.status).json(new error({ status: ex.status, message: ex.message }));
     }
   },
 
-  async deleteCategory(req, res) {
-    await categoryService.deleteCategory(req.query.id)
-      .then((result) => {
-        res.type('json');
-        res.end(JSON.stringify(result));
-      })
-      .catch((err) => {
-        console.error(err.message);
-      });
+  async delete(req, res) {
+    try {
+      const deletedCategory = await categoryService.drop(req.query.id);
+      res.type('json');
+      res.end(JSON.stringify(deletedCategory));
+    } catch (ex) {
+      return res.status(ex.status).json(new error({ status: ex.status, message: ex.message }));
+    }
   }
 };

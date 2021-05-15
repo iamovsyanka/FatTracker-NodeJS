@@ -3,11 +3,10 @@ const mealController = require('../controllers/mealController');
 
 const mealRouter = express.Router();
 
-mealRouter.get('/get', mealController.getMeal);
-mealRouter.get('/getByDay', mealController.getMealsByDay);
-mealRouter.get('/getAllByDay', mealController.getAllMealsByDay);
-mealRouter.post('/add', mealController.addMeal);
-mealRouter.put('/update', mealController.updateMeal);
-mealRouter.delete('/delete', mealController.deleteMeal);
+mealRouter.get('/get', mealController.get);
+mealRouter.post('/getAllByDay', mealController.getAllByDay);
+mealRouter.post('/add', mealController.add);
+mealRouter.put('/update', mealController.update);
+mealRouter.delete('/delete', mealController.delete);
 
 module.exports = mealRouter;
