@@ -56,8 +56,9 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: true
     },
     requiredCalories: {
-      type: DataTypes.INTEGER,
-      allowNull: true
+      type: DataTypes.FLOAT,
+      allowNull: false,
+      defaultValue: 0
     }
   }, {
     paranoid: true,

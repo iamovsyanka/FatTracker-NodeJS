@@ -1,10 +1,24 @@
 const bcrypt = require('bcrypt');
 const db = require('../db/db');
 const jwtToken = require('../token/jwt');
-const fileLoader = require('../fileLoader/fileLoader');
 const confirm = require('../mail/confirm');
 const AppError = require('../errors/appError');
 const errMessage = require('../errors/errMessages');
+
+function getAge(birthday) {
+  let now = new Date();
+  let today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  let dob = new Date(birthday);
+  let dobnow = new Date(today.getFullYear(), dob.getMonth(), dob.getDate());
+  let age;
+
+  age = today.getFullYear() - dob.getFullYear();
+  if (today < dobnow) {
+    age = age - 1;
+  }
+
+  return age;
+}
 
 const registration = async (data) => {
   const user = await db.models.User.findOne({ where: { email: data.email } });
@@ -63,22 +77,27 @@ const updateInformation = async function (data) {
   }
 };
 
-let countCalories;
-countCalories = async function (data) {
+const countCalories = async function (id) {
   const user = await db.models.User.findOne({
     where: {
-      id: data.user.id
+      id: id
     }
   });
 
-  let calories;
+  let calories = 0;
   if (user.sex === 'men') {
     calories = (9.99 * user.weight + 6.25 * user.height - 4.92 * getAge(user.birthDay) + 5) * user.activity;
-  } else {
-    calories = (9.99 * user.weight + 6.25 * user.height - 4.92 * getAge(user.birthDay)  - 161) * user.activity;
+  } else if (user.sex === 'women') {
+    calories = (9.99 * user.weight + 6.25 * user.height - 4.92 * getAge(user.birthDay) - 161) * user.activity;
   }
 
-  return calories;
+  return await db.models.User.update({
+    requiredCalories: calories
+  }, {
+    where: {
+      id: id
+    }
+  });
 };
 
 const getInfo = async function (id) {
@@ -122,19 +141,6 @@ const restoreUser = function (data) {
   });
 };
 
-function getAge(birthday) {
-  let now = new Date();
-  let today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  let dob = new Date(birthday);
-  let dobnow = new Date(today.getFullYear(), dob.getMonth(), dob.getDate());
-  let age;
-
-  age = today.getFullYear() - dob.getFullYear();
-  if (today < dobnow) {
-    age = age - 1;
-  }
-}
-
 module.exports = {
   registration,
   login,
@@ -144,5 +150,6 @@ module.exports = {
   deleteUser,
   deleteUserByAdmin,
   restoreUserByAdmin,
-  restoreUser
+  restoreUser,
+  countCalories
 };
