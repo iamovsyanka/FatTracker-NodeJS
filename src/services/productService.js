@@ -39,7 +39,6 @@ const add = async function (data, userId) {
     fats: data.fats,
     protein: data.protein,
     carbs: data.carbs,
-    brandName: data.brandName,
     categoryId: data.categoryId,
     userId: userId
   });
@@ -52,7 +51,6 @@ const updateByUser = async function (data, user) {
       fats: data.fats,
       protein: data.protein,
       carbs: data.carbs,
-      brandName: data.brandName,
       categoryId: data.categoryId
     },
     {
@@ -72,7 +70,6 @@ const updateByAdmin = async function (data) {
       fats: data.fats,
       protein: data.protein,
       carbs: data.carbs,
-      brandName: data.brandName,
       categoryId: data.categoryId
     },
     {

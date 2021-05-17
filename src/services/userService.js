@@ -20,6 +20,10 @@ function getAge(birthday) {
   return age;
 }
 
+function f() {
+
+}
+
 const registration = async (data) => {
   const user = await db.models.User.findOne({ where: { email: data.email } });
   if (user) {
@@ -92,7 +96,7 @@ const countCalories = async function (id) {
   }
 
   return await db.models.User.update({
-    requiredCalories: calories
+    requiredCalories: calories.toFixed(1)
   }, {
     where: {
       id: id

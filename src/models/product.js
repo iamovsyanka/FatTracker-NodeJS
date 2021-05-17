@@ -11,23 +11,19 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false
     },
     calories: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.FLOAT,
       allowNull: false
     },
     fats: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.FLOAT,
       allowNull: false
     },
     protein: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.FLOAT,
       allowNull: false
     },
     carbs: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    brandName: {
-      type: DataTypes.STRING,
+      type: DataTypes.FLOAT,
       allowNull: false
     },
     categoryId: {
