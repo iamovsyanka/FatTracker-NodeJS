@@ -37,7 +37,7 @@ const get = async function (data) {
       }
     });
     if (!day) {
-      throw new AppError({ status: 404, message: 'User not found' });
+      throw new AppError({ status: 404, message: 'Day not found' });
     }
 
     day.totalCalories = 0;

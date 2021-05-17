@@ -31,7 +31,7 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: true
     },
-    desiredWeight: {
+    weight: {
       type: DataTypes.INTEGER,
       allowNull: true
     },
@@ -52,7 +52,7 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: true
     },
     activity: {
-      type: DataTypes.INTEGER(DataTypes.ENUM(enums.activity)),
+      type: DataTypes.FLOAT(DataTypes.ENUM(enums.activity)),
       allowNull: true
     },
     requiredCalories: {
@@ -82,16 +82,6 @@ module.exports = function (sequelize, DataTypes) {
       as: 'products',
       foreignKey: 'userId'
     });
-  };
-
-  User.prototype.toJSON = function () {
-    return {
-      id: this.id,
-      role: this.role,
-      email: this.email,
-      name: this.name,
-      photo: this.photo
-    };
   };
 
   return User;

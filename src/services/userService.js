@@ -46,31 +46,39 @@ const verifyAccount = async function (token) {
 
 const updateInformation = async function (data) {
   const user = await db.models.User.findOne({ where: { id: data.user.id } });
-   if(!user) {
-     throw new AppError({ status: 404, message: errMessage.USER_NOT_FOUND });
-   } else {
-     return await db.models.User.update({
-       height: data.body.height,
-       desiredWeight: data.body.desiredWeight,
-       birthDay: data.body.birthDay,
-       sex: data.body.sex,
-       activity: data.body.activity
-     }, {
-       where: {
-         id: data.user.id
-       }
-     });
-   }
+  if (!user) {
+    throw new AppError({ status: 404, message: errMessage.USER_NOT_FOUND });
+  } else {
+    return await db.models.User.update({
+      height: data.body.height,
+      weight: data.body.weight,
+      birthDay: data.body.birthDay,
+      sex: data.body.sex.name,
+      activity: data.body.activity
+    }, {
+      where: {
+        id: data.user.id
+      }
+    });
+  }
 };
 
-const countCalories = async function (data) {
+let countCalories;
+countCalories = async function (data) {
   const user = await db.models.User.findOne({
     where: {
       id: data.user.id
     }
   });
 
-  const calories = 9.99 * user;
+  let calories;
+  if (user.sex === 'men') {
+    calories = (9.99 * user.weight + 6.25 * user.height - 4.92 * getAge(user.birthDay) + 5) * user.activity;
+  } else {
+    calories = (9.99 * user.weight + 6.25 * user.height - 4.92 * getAge(user.birthDay)  - 161) * user.activity;
+  }
+
+  return calories;
 };
 
 const getInfo = async function (id) {
@@ -113,6 +121,19 @@ const restoreUser = function (data) {
     }, paranoid: true
   });
 };
+
+function getAge(birthday) {
+  let now = new Date();
+  let today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  let dob = new Date(birthday);
+  let dobnow = new Date(today.getFullYear(), dob.getMonth(), dob.getDate());
+  let age;
+
+  age = today.getFullYear() - dob.getFullYear();
+  if (today < dobnow) {
+    age = age - 1;
+  }
+}
 
 module.exports = {
   registration,
