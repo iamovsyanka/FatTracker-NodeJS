@@ -42,26 +42,6 @@ module.exports = {
     }
   },
 
-  async updatePhotoByUser(req, res) {
-    try {
-      const updatedProduct = await productService.updatePhotoByUser(req, req.file);
-      res.type('json');
-      res.end(JSON.stringify(updatedProduct));
-    } catch (ex) {
-      return res.status(ex.status).json(new error({ status: ex.status, message: ex.message }));
-    }
-  },
-
-  async updatePhotoByAdmin(req, res) {
-    try {
-      const updatedProduct = await productService.updatePhotoByAdmin(req, req.file);
-      res.type('json');
-      res.end(JSON.stringify(updatedProduct));
-    } catch (ex) {
-      return res.status(ex.status).json(new error({ status: ex.status, message: ex.message }));
-    }
-  },
-
   async updateByUser(req, res) {
     try {
       const updatedProduct = await productService.updateByUser(req.body, req.user);

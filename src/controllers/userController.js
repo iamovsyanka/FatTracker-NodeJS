@@ -13,17 +13,6 @@ module.exports = {
       });
   },
 
-  async updatePhoto(req, res) {
-    await userService.updatePhoto(req, req.file)
-      .then((result) => {
-        res.type('json');
-        res.end(JSON.stringify(result));
-      })
-      .catch((err) => {
-        console.error(err.message);
-      });
-  },
-
   async getInfo(req, res) {
     try {
       const user = await userService.getInfo(req.user.id);

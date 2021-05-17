@@ -13,6 +13,16 @@ module.exports = {
     }
   },
 
+  async getAllName(req, res) {
+    try {
+      const categories = await categoryService.getAllName();
+      res.type('json');
+      res.end(JSON.stringify(categories));
+    } catch (ex) {
+      return res.status(ex.status).json(new error({ status: ex.status, message: ex.message }));
+    }
+  },
+
   async add(req, res) {
     try {
       if (!(req.body.name && req.file)) {

@@ -2,6 +2,7 @@ const db = require('../db/db');
 const { Op } = require('sequelize');
 const moment = require('moment');
 const AppError = require('../errors/appError');
+const errMessage = require('../errors/errMessages');
 
 const add = async function (data) {
   const day = await db.models.Day.findOne({

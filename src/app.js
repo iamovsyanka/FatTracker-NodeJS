@@ -22,8 +22,6 @@ const filesHelper = require('./fileLoader/fileLoader');
 
 filesHelper.createDir('./', 'photos');
 filesHelper.createDir('./photos', 'categories');
-filesHelper.createDir('./photos', 'products');
-filesHelper.createDir('./photos', 'users');
 
 app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');

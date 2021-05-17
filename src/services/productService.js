@@ -1,85 +1,47 @@
 const db = require('../db/db');
 const { Op } = require('sequelize');
-const fileLoader = require('../fileLoader/fileLoader');
+const AppError = require('../errors/appError');
+const errMessage = require('../errors/errMessages');
 
 const getByCategory = async function (id) {
-  return await db.models.Product.findAll({
+  const products = await db.models.Product.findAll({
     include: [{ model: db.models.Category, as: 'Category', required: true }],
     where: { categoryId: id }
   });
+
+  if (!products) throw new AppError({ status: 404, message: errMessage.PRODUCT_NOT_FOUND });
+
+  return products;
 };
 
 const getById = async function (id) {
-  return await db.models.Product.findOne({
-    where: { id: id }
-  });
+  const product = await db.models.Product.findOne({ where: { id: id } });
+  if (!product) throw new AppError({ status: 404, message: errMessage.PRODUCT_NOT_FOUND });
+
+  return product;
 };
 
 const getByName = async function (name) {
   return await db.models.Product.findAll({
     where: db.sequelize.where(
       db.sequelize.fn('lower', db.sequelize.col('name')),
-     {[Op.like]: `${name.toLowerCase()}%`})
+      { [Op.like]: `${name.toLowerCase()}%` })
   });
 };
 
 const add = async function (data, userId) {
   const product = await db.models.Product.findOne({ where: { name: data.name } });
+  if (product) throw new AppError({ status: 409, message: errMessage.PRODUCT_EXISTS });
 
-  if (product) {
-
-  } else {
-    return await db.models.Product.create({
-      name: data.name,
-      calories: data.calories,
-      fats: data.fats,
-      protein: data.protein,
-      carbs: data.carbs,
-      brandName: data.brandName,
-      categoryId: data.categoryId,
-      userId: userId
-    });
-  }
-};
-
-const updatePhotoByUser = async function (data, file) {
-  let photo;
-  if (file) {
-    const fileNameArray = file.originalname.split('.');
-    const fileFormat = fileNameArray[fileNameArray.length - 1];
-    if (fileNameArray.length === 1 || !(fileFormat === 'png' || fileFormat === 'jpg' || fileFormat === 'jpeg'))
-      //throw new AppError({status: 400, message: errorMessages.WRONG_PHOTO_FORMAT});
-    {
-    }
-    photo = await fileLoader.savePhoto(file, 'products');
-  }
-
-  return await db.models.Product.update({ photo: photo }, {
-    where: {
-      [Op.and]: {
-        userId: data.user.id,
-        id: data.body.id
-      }
-    }
-  });
-};
-
-const updatePhotoByAdmin = async function (data, file) {
-  let photo;
-  if (file) {
-    const fileNameArray = file.originalname.split('.');
-    const fileFormat = fileNameArray[fileNameArray.length - 1];
-    if (fileNameArray.length === 1 || !(fileFormat === 'png' || fileFormat === 'jpg' || fileFormat === 'jpeg'))
-      //throw new AppError({status: 400, message: errorMessages.WRONG_PHOTO_FORMAT});
-    {
-    }
-    photo = await fileLoader.savePhoto(file, 'products');
-  }
-
-  return await db.models.Product.update({ photo: photo }, {
-    where: {
-      id: data.body.id
-    }
+  return await db.models.Product.create({
+    name: data.name,
+    calories: data.calories,
+    fats: data.fats,
+    protein: data.protein,
+    carbs: data.carbs,
+    brandName: data.brandName,
+    categoryId: data.categoryId,
+    userId: userId
   });
 };
 
@@ -144,8 +106,6 @@ module.exports = {
   getByName,
   getById,
   add,
-  updatePhotoByUser,
-  updatePhotoByAdmin,
   updateByUser,
   updateByAdmin,
   deleteByUser,

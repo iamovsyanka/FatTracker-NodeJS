@@ -4,71 +4,63 @@ const jwtToken = require('../token/jwt');
 const fileLoader = require('../fileLoader/fileLoader');
 const confirm = require('../mail/confirm');
 const AppError = require('../errors/appError');
+const errMessage = require('../errors/errMessages');
 
 const registration = async (data) => {
-  const newUser = await db.models.User.create({
-    email: data.email,
-    name: data.name,
-    password: data.password,
-    verified: true,
-    role: 'user'
-  }).catch(err => console.error(err));
+  const user = await db.models.User.findOne({ where: { email: data.email } });
+  if (user) {
+    throw new AppError({ status: 409, message: errMessage.USER_EXISTS });
+  } else {
+    const newUser = await db.models.User.create({
+      email: data.email,
+      name: data.name,
+      password: data.password,
+      verified: true,
+      role: 'user'
+    }).catch(err => console.error(err));
 
-  //await confirm(data.email);
+    //await confirm(data.email);
 
-  return newUser;
+    return newUser;
+  }
 };
 
 const login = async function (data) {
   const user = await db.models.User.findOne({ where: { email: data.email } });
-  if (!user || !(await bcrypt.compare(data.password, user.password))) {
-    throw new AppError({status: 404, message: 'User not found'})
+  if (!user) throw new AppError({ status: 404, message: errMessage.USER_NOT_FOUND });
+  if (!(await bcrypt.compare(data.password, user.password))) {
+    throw new AppError({ status: 401, message: 'Incorrect password' });
   }
 
   return jwtToken.generateAccessToken(user.id, user.role);
 };
 
 const verifyAccount = async function (token) {
-  try {
-    const decodedToken = jwtToken.verifyToken(token);
-    const existUser = await db.models.User.findOne({ where: { email: decodedToken.email } });
+  const decodedToken = jwtToken.verifyToken(token);
+  const existUser = await db.models.User.findOne({ where: { email: decodedToken.email } });
 
-    //if (!existUser) throw new AppError({status: 404, message: errorMessages.USER_NOT_FOUND});
+  if (!existUser) throw new AppError({ status: 404, message: errMessage.USER_NOT_FOUND });
 
-    return await existUser.update({ verified: true });
-  } catch (err) {
-    // if (err instanceof AppError) throw err;
-    // throw new AppError({err: err});
-  }
+  return await existUser.update({ verified: true });
 };
 
 const updateInformation = async function (data) {
-  return await db.models.User.update({
-    height: data.body.height,
-    desiredWeight: data.body.desiredWeight,
-    birthDay: data.body.birthDay,
-    sex: data.body.sex,
-    activity: data.body.activity
-  }, {
-    where: {
-      id: data.user.id
-    }
-  });
-};
-
-const updatePhoto = async function (data, file) {
-  let photo;
-  if (file) {
-    const fileNameArray = file.originalname.split('.');
-    const fileFormat = fileNameArray[fileNameArray.length - 1];
-    if (fileNameArray.length === 1 || !(fileFormat === 'png' || fileFormat === 'jpg' || fileFormat === 'jpeg'))
-      //throw new AppError({status: 400, message: errorMessages.WRONG_PHOTO_FORMAT});
-    {
-    }
-    photo = await fileLoader.savePhoto(file, 'users');
-  }
-
-  return await db.models.User.update({ photo: photo }, { where: { id: data.user.id } });
+  const user = await db.models.User.findOne({ where: { id: data.user.id } });
+   if(!user) {
+     throw new AppError({ status: 404, message: errMessage.USER_NOT_FOUND });
+   } else {
+     return await db.models.User.update({
+       height: data.body.height,
+       desiredWeight: data.body.desiredWeight,
+       birthDay: data.body.birthDay,
+       sex: data.body.sex,
+       activity: data.body.activity
+     }, {
+       where: {
+         id: data.user.id
+       }
+     });
+   }
 };
 
 const countCalories = async function (data) {
@@ -127,7 +119,6 @@ module.exports = {
   login,
   verifyAccount,
   updateInformation,
-  updatePhoto,
   getInfo,
   deleteUser,
   deleteUserByAdmin,

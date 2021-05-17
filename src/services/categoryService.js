@@ -1,9 +1,15 @@
 const db = require('../db/db');
 const fileLoader = require('../fileLoader/fileLoader');
+const AppError = require('../errors/appError');
+const errMessage = require('../errors/errMessages');
 
 const getAll = async (page, limit) => await db.models.Category.findAndCountAll({
   limit: limit,
   offset: page ? page * limit : 0
+});
+
+const getAllName = async () => await db.models.Category.findAll({
+  attributes: ['id', 'name']
 });
 
 const add = async (data, file) => {
@@ -59,6 +65,7 @@ const drop = (id) => {
 
 module.exports = {
   getAll,
+  getAllName,
   add,
   update,
   drop

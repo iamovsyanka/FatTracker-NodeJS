@@ -1,15 +1,14 @@
 const db = require('../db/db');
 const { Op } = require('sequelize');
+const errMessage = require('../errors/errMessages');
 
-const getMealById = async function (id) {
+const getById = async function (id) {
   return await db.models.Meal.findOne({
-    where: {
-      id: id
-    }
+    where: { id: id }
   });
 };
 
-const getAllMealsByDayId = async function (dayId) {
+const getAllByDayId = async function (dayId) {
   return await db.models.Meal.findAll({
     where: {
       dayId: dayId
@@ -17,7 +16,7 @@ const getAllMealsByDayId = async function (dayId) {
   });
 };
 
-const addMeal = async function (data) {
+const add = async function (data) {
   return await db.models.Meal.create({
     dayId: data.dayId,
     meal: data.meal,
@@ -26,7 +25,7 @@ const addMeal = async function (data) {
   });
 };
 
-const updateMeal = async function (data) {
+const update = async function (data) {
   return await db.models.Meal.update({
     productId: data.productId,
     weight: data.weight,
@@ -38,7 +37,7 @@ const updateMeal = async function (data) {
   });
 };
 
-const deleteMeal = function (id) {
+const drop = function (id) {
   return db.models.Meal.destroy({
     where: {
       id: id
@@ -47,9 +46,9 @@ const deleteMeal = function (id) {
 };
 
 module.exports = {
-  addMeal,
-  updateMeal,
-  deleteMeal,
-  getMealById,
-  getAllMealsByDayId
+  add,
+  update,
+  drop,
+  getById,
+  getAllByDayId
 };
