@@ -7,7 +7,7 @@ module.exports = mailConfirm = async email => {
     email: email
   }, JWT_SECRET_KEY, { expiresIn: '24h' });
 
-  const TOKEN_URL = 'http://localhost:8080/api/v1/verify?token=' + token;
+  const TOKEN_URL = 'http://localhost:4000/api/v1/verify?token=' + token;
 
   let transporter = nodemailer.createTransport(getEmail());
 
@@ -29,7 +29,7 @@ const getEmail = function () {
     service: 'Yandex',
     auth: {
       user: 'fattracker4notify@yandex.by',
-      pass: '94x-gDY-W7N-9cd'
+      pass: 'isamjvguqxwbmtqr'
     }
   };
 };

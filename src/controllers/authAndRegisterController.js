@@ -35,8 +35,14 @@ module.exports = {
     try {
       if (req.query.token) {
         const user = await userService.verifyAccount(req.query.token);
-        res.type('json');
-        res.end(JSON.stringify(user));
+        let page = '<body style="background: rgba(99,226,130,0.82);">' +
+          '<h1 style="font-size: 45px; color: rgba(245,248,242,0.82); ' +
+          'text-align: center; margin: auto;">' +
+          `Thank you for the email confirmations, ${user.name}!</h1>` +
+          '</body>';
+
+        res.type('html');
+        res.end(page);
       }
     } catch (ex) {
       return res.status(ex.status).json(new error({ status: ex.status, message: ex.message}));

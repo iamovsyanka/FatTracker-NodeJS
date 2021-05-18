@@ -35,10 +35,6 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: true
     },
-    photo: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
     role: {
       type: DataTypes.STRING(DataTypes.ENUM(enums.role)),
       allowNull: true

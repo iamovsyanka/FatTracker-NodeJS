@@ -33,11 +33,10 @@ const registration = async (data) => {
       email: data.email,
       name: data.name,
       password: data.password,
-      verified: true,
+      verified: false,
       role: 'user'
-    }).catch(err => console.error(err));
-
-    //await confirm(data.email);
+    });
+    await confirm(data.email);
 
     return newUser;
   }
@@ -47,7 +46,10 @@ const login = async function (data) {
   const user = await db.models.User.findOne({ where: { email: data.email } });
   if (!user) throw new AppError({ status: 404, message: errMessage.USER_NOT_FOUND });
   if (!(await bcrypt.compare(data.password, user.password))) {
-    throw new AppError({ status: 401, message: 'Incorrect password' });
+    throw new AppError({ status: 401, message: errMessage.WRONG_PASSWORD });
+  }
+  if(!user.verified) {
+    throw new AppError({ status: 403, message: errMessage.EMAIL_NOT_CONFIRMED });
   }
 
   return jwtToken.generateAccessToken(user.id, user.role);
