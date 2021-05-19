@@ -1,5 +1,4 @@
 const db = require('../db/db');
-const fileLoader = require('../fileLoader/fileLoader');
 const AppError = require('../errors/appError');
 const errMessage = require('../errors/errMessages');
 
@@ -12,46 +11,23 @@ const getAllName = async () => await db.models.Category.findAll({
   attributes: ['id', 'name']
 });
 
-const add = async (data, file) => {
+const add = async (data) => {
   const category = await db.models.Category.findOne({ where: { name: data.name } });
 
   if (category) {
 
   } else {
-    let photo;
-    if (file) {
-      const fileNameArray = file.originalname.split('.');
-      const fileFormat = fileNameArray[fileNameArray.length - 1];
-      if (fileNameArray.length === 1 || !(fileFormat === 'png' || fileFormat === 'jpg' || fileFormat === 'jpeg'))
-        //throw new AppError({status: 400, message: errorMessages.WRONG_PHOTO_FORMAT});
-      {
-      }
-      photo = await fileLoader.savePhoto(file, 'categories');
-    }
-
     return await db.models.Category.create({
       name: data.name,
-      description: data.description,
-      photo: photo
+      description: data.description
     });
   }
 };
 
-const update = async (data, file) => {
-  let photo;
-  if (file) {
-    const fileNameArray = file.originalname.split('.');
-    const fileFormat = fileNameArray[fileNameArray.length - 1];
-    if (fileNameArray.length === 1 || !(fileFormat === 'png' || fileFormat === 'jpg' || fileFormat === 'jpeg'))
-      //throw new AppError({status: 400, message: errorMessages.WRONG_PHOTO_FORMAT});
-    {
-    }
-    photo = await fileLoader.savePhoto(file, 'categories');
-  }
-
+const update = async (data) => {
   return await db.models.Category.update({
     name: data.name,
-    photo: photo
+    description: data.description
   }, {
     where: {
       id: data.id

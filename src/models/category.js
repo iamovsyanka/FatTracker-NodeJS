@@ -13,10 +13,6 @@ module.exports = function (sequelize, DataTypes) {
     description: {
       type: DataTypes.STRING,
       allowNull: false
-    },
-    photo: {
-      type: DataTypes.STRING,
-      allowNull: false
     }
   }, {
     tableName: 'categories'

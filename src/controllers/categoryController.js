@@ -25,11 +25,10 @@ module.exports = {
 
   async add(req, res) {
     try {
-      if (!(req.body.name && req.file)) {
+      if (!(req.body.name)) {
         return res.status(400).json(new error({ status: 400, message: errMessages.BAD_DATA }));
       }
-
-      const addedCategory = await categoryService.add(req.body, req.file);
+      const addedCategory = await categoryService.add(req.body);
       res.type('json');
       res.end(JSON.stringify(addedCategory));
     } catch (ex) {
@@ -39,7 +38,7 @@ module.exports = {
 
   async update(req, res) {
     try {
-      const updatedCategory = await categoryService.update(req.body, req.file);
+      const updatedCategory = await categoryService.update(req.body);
       res.type('json');
       res.end(JSON.stringify(updatedCategory));
     } catch (ex) {
