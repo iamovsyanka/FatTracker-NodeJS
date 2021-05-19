@@ -5,7 +5,7 @@ const error = require('../errors/appError');
 module.exports = {
   async getAll(req, res) {
     try {
-      const categories = await categoryService.getAll(req.query.page, req.query.size);
+      const categories = await categoryService.getAll();
       res.type('json');
       res.end(JSON.stringify(categories));
     } catch (ex) {

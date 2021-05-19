@@ -2,17 +2,14 @@ const db = require('../db/db');
 const AppError = require('../errors/appError');
 const errMessage = require('../errors/errMessages');
 
-const getAll = async (page, limit) => await db.models.Category.findAndCountAll({
-  limit: limit,
-  offset: page ? page * limit : 0
-});
+const getAll = async () => await db.models.Category.findAll();
 
 const getAllName = async () => await db.models.Category.findAll({
   attributes: ['id', 'name']
 });
 
 const getProducts = async function (id) {
-  const products = await db.models.Category.findAll({
+  const products = await db.models.Category.findOne({
     include: [{ model: db.models.Product, as: 'products', required: true }],
     where: { id: id }
   });
