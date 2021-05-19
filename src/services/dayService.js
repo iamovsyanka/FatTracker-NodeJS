@@ -63,7 +63,76 @@ const get = async function (data) {
   }
 };
 
+const getAllByUser = async function (userId) {
+  const days = await db.models.Day.findAll({
+    where: {
+      userId: userId
+    },
+    include: {
+      model: db.models.Meal, as: 'meals',
+      include: { model: db.models.Product, as: 'Product' }
+    }
+  });
+
+  days.forEach(day => {
+    day.totalCalories = 0;
+    day.totalFats = 0;
+    day.totalProtein = 0;
+    day.totalCarbs = 0;
+
+    if (day.meals) {
+      day.meals.forEach(meal => {
+        if (meal.Product) {
+          day.totalCalories += meal.Product.calories * meal.weight / 100;
+          day.totalFats += meal.Product.fats * meal.weight / 100;
+          day.totalProtein += meal.Product.protein * meal.weight / 100;
+          day.totalCarbs += meal.Product.carbs * meal.weight / 100;
+        }
+      });
+    }
+  });
+
+    return days;
+};
+
+const getSinceDate = async function (userId, date) {
+  const days = await db.models.Day.findAll({
+    where: {
+      userId: userId,
+      date: {
+        [Op.gte]: date
+      }
+    },
+    include: {
+      model: db.models.Meal, as: 'meals',
+      include: { model: db.models.Product, as: 'Product' }
+    }
+  });
+
+  days.forEach(day => {
+    day.totalCalories = 0;
+    day.totalFats = 0;
+    day.totalProtein = 0;
+    day.totalCarbs = 0;
+
+    if (day.meals) {
+      day.meals.forEach(meal => {
+        if (meal.Product) {
+          day.totalCalories += meal.Product.calories * meal.weight / 100;
+          day.totalFats += meal.Product.fats * meal.weight / 100;
+          day.totalProtein += meal.Product.protein * meal.weight / 100;
+          day.totalCarbs += meal.Product.carbs * meal.weight / 100;
+        }
+      });
+    }
+  });
+
+  return days;
+};
+
 module.exports = {
   add,
-  get
+  get,
+  getAllByUser,
+  getSinceDate
 };

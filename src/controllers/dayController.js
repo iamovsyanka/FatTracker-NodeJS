@@ -20,5 +20,25 @@ module.exports = {
     } catch (ex) {
       return res.status(ex.status).json(new error({ status: ex.status, message: ex.message }));
     }
+  },
+
+  async getAllByUser(req, res) {
+    try {
+      const day = await dayService.getAllByUser(req.user.id);
+      res.type('json');
+      res.end(JSON.stringify(day));
+    } catch (ex) {
+      return res.status(ex.status).json(new error({ status: ex.status, message: ex.message }));
+    }
+  },
+
+  async getSinceDate(req, res) {
+    try {
+      const day = await dayService.getSinceDate(req.user.id, req.body.date);
+      res.type('json');
+      res.end(JSON.stringify(day));
+    } catch (ex) {
+      return res.status(ex.status).json(new error({ status: ex.status, message: ex.message }));
+    }
   }
 };
