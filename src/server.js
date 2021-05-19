@@ -1,13 +1,22 @@
 const { PORT } = require('./config/config');
 const app = require('./app');
 const db = require('./db/db');
+const fs = require('fs');
+const path = require('path');
+const https = require('https');
+const cert = {
+  key: fs.readFileSync(path.join(__dirname, "cert", "FAT.key")),
+  cert: fs.readFileSync(path.join(__dirname, "cert", "FAT.crt"))
+};
+
+const httpsServer = https.createServer(cert, app);
 
 db.sequelize.authenticate()
 //db.sequelize.sync({ force: false, alter: true })
   .then(async () => {
     console.log(`Start project, port:${PORT}`);
 
-    return app.listen(PORT);
+    httpsServer.listen(PORT);
   })
   .catch((err) => {
     console.error(err.message);

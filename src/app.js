@@ -2,6 +2,7 @@ const express = require('express.oi');
 const swaggerUI = require('swagger-ui-express');
 const yaml = require('yamljs');
 const path = require('path');
+const app = express();
 
 const logger = require('./logging/logger');
 const categoryRouter = require('./routers/categoryRouter');
@@ -15,13 +16,7 @@ const authMiddleware = require('./middlewares/authMiddleware');
 const authAdminMiddleware = require('./middlewares/authAdminMiddleware');
 const errorMiddleware = require('./middlewares/errorMiddleware');
 
-const app = express();
 const swaggerDocument = yaml.load(path.join(__dirname, '../doc/api.yaml'));
-
-const filesHelper = require('./fileLoader/fileLoader');
-
-filesHelper.createDir('./', 'photos');
-filesHelper.createDir('./photos', 'categories');
 
 app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
@@ -33,7 +28,6 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.use(express.static('./photos'));
 app
   .use(express.json())
   .use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
