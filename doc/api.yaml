@@ -32,10 +32,8 @@ components:
           type: boolean
         height:
           type: integer
-        desiredWeight:
+        weight:
           type: integer
-        photo:
-          type: string
         role:
           type: string
         sex:
@@ -43,7 +41,7 @@ components:
         birthDay:
           type: string
         activity:
-          type: integer
+          type: float
         requiredCalories:
           type: integer
   # 1) Define the security scheme type (HTTP bearer)

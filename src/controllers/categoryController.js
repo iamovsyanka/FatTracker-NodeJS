@@ -23,6 +23,16 @@ module.exports = {
     }
   },
 
+  async getProducts(req, res) {
+    try {
+      const products = await categoryService.getProducts(req.query.id);
+      res.type('json');
+      res.end(JSON.stringify(products));
+    } catch (ex) {
+      return res.status(ex.status).json(new error({ status: ex.status, message: ex.message }));
+    }
+  },
+
   async add(req, res) {
     try {
       if (!(req.body.name)) {

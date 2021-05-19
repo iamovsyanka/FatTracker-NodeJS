@@ -11,6 +11,17 @@ const getAllName = async () => await db.models.Category.findAll({
   attributes: ['id', 'name']
 });
 
+const getProducts = async function (id) {
+  const products = await db.models.Category.findAll({
+    include: [{ model: db.models.Product, as: 'products', required: true }],
+    where: { id: id }
+  });
+
+  if (!products) throw new AppError({ status: 404, message: errMessage.PRODUCT_NOT_FOUND });
+
+  return products;
+};
+
 const add = async (data) => {
   const category = await db.models.Category.findOne({ where: { name: data.name } });
 
@@ -40,6 +51,7 @@ const drop = (id) => {
 };
 
 module.exports = {
+  getProducts,
   getAll,
   getAllName,
   add,

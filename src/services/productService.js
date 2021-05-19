@@ -3,17 +3,6 @@ const { Op } = require('sequelize');
 const AppError = require('../errors/appError');
 const errMessage = require('../errors/errMessages');
 
-const getByCategory = async function (id) {
-  const products = await db.models.Product.findAll({
-    include: [{ model: db.models.Category, as: 'Category', required: true }],
-    where: { categoryId: id }
-  });
-
-  if (!products) throw new AppError({ status: 404, message: errMessage.PRODUCT_NOT_FOUND });
-
-  return products;
-};
-
 const getById = async function (id) {
   const product = await db.models.Product.findOne({ where: { id: id } });
   if (!product) throw new AppError({ status: 404, message: errMessage.PRODUCT_NOT_FOUND });
@@ -99,7 +88,6 @@ const deleteByAdmin = (id) => {
 };
 
 module.exports = {
-  getByCategory,
   getByName,
   getById,
   add,
