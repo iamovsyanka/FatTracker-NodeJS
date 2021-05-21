@@ -41,18 +41,27 @@ components:
         birthDay:
           type: string
         activity:
-          type: float
+          type: integer
         requiredCalories:
           type: integer
-  # 1) Define the security scheme type (HTTP bearer)
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+
   securitySchemes:
-    bearerAuth:            # arbitrary name for the security scheme
+    bearerAuth:
       type: http
       scheme: bearer
-      bearerFormat: JWT    # optional, arbitrary value for documentation purposes
-# 2) Apply the security globally to all operations
+      bearerFormat: JWT
+
   security:
-    - bearerAuth: []         # use the same name as above
+    - bearerAuth: []
   responses:
     UnauthorizedError:
       description: Access token is missing or invalid
@@ -60,12 +69,12 @@ components:
 paths:
   /api/v1/user/getInfo:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - user
       summary: Get user by id.
       description: Get information about user.
-      parameters:
-        - $ref: "#/components/parameters/auth"
       responses:
         '200':
           content:
@@ -115,6 +124,7 @@ paths:
                 description: JWT Token
         403:
           description: Incorrect email or password
+
   /api/v1/register:
     post:
       tags:
@@ -153,3 +163,45 @@ paths:
                 $ref: "#/components/schemas/User"
         403:
           description: Incorrect email or password
+
+  /api/v1/category/allName:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - category
+      summary: Get names of all categories.
+      description: Get names of all categories.
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+  /api/v1/category/products:
+    get:
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+          description: The number of category to get products
+      tags:
+        - category
+      summary: Get all names categories.
+      description: Get all names categories.
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
