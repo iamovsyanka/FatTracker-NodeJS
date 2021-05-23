@@ -8,16 +8,16 @@ const cert = {
   key: fs.readFileSync(path.join(__dirname, 'cert', 'FAT.key')),
   cert: fs.readFileSync(path.join(__dirname, 'cert', 'FAT.crt'))
 };
-const port = 3000;
+const port = 3003;
 
 const httpsServer = https.createServer(cert, app);
 require('./socket/socket');
 
 db.sequelize.authenticate()
   .then(() => {
-    console.log(`Start project, port:${process.env.PORT || port}`);
+    console.log(`Start project, port:${port || process.env.PORT}`);
 
-    httpsServer.listen(process.env.PORT || port);
+    httpsServer.listen(port || process.env.PORT);
   })
   .catch((err) => {
     console.error(err.message);

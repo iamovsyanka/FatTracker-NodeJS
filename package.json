@@ -39,7 +39,5 @@
     "url": "https://github.com/iamovsyanka/FatTracker-NodeJS/issues"
   },
   "homepage": "https://github.com/iamovsyanka/FatTracker-NodeJS#readme",
-  "devDependencies": {
-    "express.oi": "0.0.21"
-  }
+  "devDependencies": {}
 }

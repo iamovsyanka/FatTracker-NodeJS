@@ -1,4 +1,4 @@
-const express = require('express.oi');
+const express = require('express.io');
 const swaggerUI = require('swagger-ui-express');
 const yaml = require('yamljs');
 const path = require('path');
