@@ -10,7 +10,7 @@ const cert = {
 };
 
 const httpsServer = https.createServer(cert, app);
-require('./socket/socket');
+//require('./socket/socket');
 
 db.sequelize.authenticate()
   .then(() => {
