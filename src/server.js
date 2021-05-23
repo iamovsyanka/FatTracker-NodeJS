@@ -8,6 +8,7 @@ const cert = {
   key: fs.readFileSync(path.join(__dirname, 'cert', 'FAT.key')),
   cert: fs.readFileSync(path.join(__dirname, 'cert', 'FAT.crt'))
 };
+const port = 3000;
 
 const httpsServer = https.createServer(cert, app);
 require('./socket/socket');
