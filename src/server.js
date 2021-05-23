@@ -14,9 +14,9 @@ require('./socket/socket');
 
 db.sequelize.authenticate()
   .then(() => {
-    console.log(`Start project, port:${PORT}`);
+    console.log(`Start project, port:${process.env.PORT || port}`);
 
-    httpsServer.listen(PORT);
+    httpsServer.listen(process.env.PORT || port);
   })
   .catch((err) => {
     console.error(err.message);
