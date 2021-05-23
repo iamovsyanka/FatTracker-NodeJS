@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const db = require('../db/db');
 const jwtToken = require('../token/jwt');
 const confirm = require('../mail/confirm');
+const notifications = require('../mail/notifications');
 const AppError = require('../errors/appError');
 const errMessage = require('../errors/errMessages');
 
@@ -18,10 +19,6 @@ function getAge(birthday) {
   }
 
   return age;
-}
-
-function f() {
-
 }
 
 const registration = async (data) => {
@@ -48,10 +45,11 @@ const login = async function (data) {
   if (!(await bcrypt.compare(data.password, user.password))) {
     throw new AppError({ status: 401, message: errMessage.WRONG_PASSWORD });
   }
-  if(!user.verified) {
+  if (!user.verified) {
     throw new AppError({ status: 403, message: errMessage.EMAIL_NOT_CONFIRMED });
   }
 
+  //await notifications(user.email, user.name);
   return jwtToken.generateAccessToken(user.id, user.role);
 };
 
@@ -76,19 +74,13 @@ const updateInformation = async function (data) {
       sex: data.body.sex.name,
       activity: data.body.activity
     }, {
-      where: {
-        id: data.user.id
-      }
+      where: { id: data.user.id }
     });
   }
 };
 
 const countCalories = async function (id) {
-  const user = await db.models.User.findOne({
-    where: {
-      id: id
-    }
-  });
+  const user = await db.models.User.findOne({ where: { id: id } });
 
   let calories = 0;
   if (user.sex === 'men') {
@@ -97,29 +89,19 @@ const countCalories = async function (id) {
     calories = (9.99 * user.weight + 6.25 * user.height - 4.92 * getAge(user.birthDay) - 161) * user.activity;
   }
 
-  return await db.models.User.update({
+  await db.models.User.update({
     requiredCalories: calories.toFixed(1)
-  }, {
-    where: {
-      id: id
-    }
-  });
+  }, { where: { id: id } });
+
+  return calories.toFixed(1);
 };
 
 const getInfo = async function (id) {
-  return await db.models.User.findOne({
-    where: {
-      id: id
-    }
-  });
+  return await db.models.User.findOne({ where: { id: id } });
 };
 
 const deleteUser = function (id) {
-  return db.models.User.destroy({
-    where: {
-      id: id
-    }
-  });
+  return db.models.User.destroy({ where: { id: id } });
 };
 
 const deleteUserByAdmin = function (id) {

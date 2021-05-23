@@ -41,9 +41,10 @@ components:
         birthDay:
           type: string
         activity:
-          type: integer
+          type: number
         requiredCalories:
-          type: integer
+          type: number
+
     Category:
       type: object
       properties:
@@ -54,12 +55,27 @@ components:
         description:
           type: string
 
+    Day:
+      type: object
+      properties:
+        id:
+          type: integer
+        date:
+          type: string
+        totalCalories:
+          type: number
+        totalFats:
+          type: number
+        totalProtein:
+          type: number
+        totalCarbs:
+          type: number
+
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
-
   security:
     - bearerAuth: []
   responses:
@@ -83,6 +99,66 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+  /api/v1/user/countCalories:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - user
+      summary: Get user by id.
+      description: Get information about user.
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: number
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+  /api/v1/user/updateInfo:
+    put:
+      security:
+        - bearerAuth: []
+      tags:
+        - user
+      summary: Edit profile.
+      description: Edit profile.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              title: example
+              properties:
+                height:
+                  type: integer
+                  description: height
+                weight:
+                  type: integer
+                  description: weight
+                birthDay:
+                  type: string
+                  description: birthDay
+                  pattern: '^\d{4}-\d{2}-\d{2}$'
+                sex:
+                  type: string
+                  array: [men, women]
+                  example: women
+                activity:
+                  type: number
+                  array: [1.2, 1.37, 1.55, 1.7, 1.9]
+                  exapmle: 1.55
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
         '401':
           $ref: '#/components/responses/UnauthorizedError'
 
@@ -149,6 +225,7 @@ paths:
                   description: name
                 password:
                   type: string
+                  minLength: 5
                   description: Password
               required:
                 - email
@@ -183,6 +260,25 @@ paths:
         '401':
           $ref: '#/components/responses/UnauthorizedError'
 
+  /api/v1/category/all:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - category
+      summary: Get all categories.
+      description: Get all categories.
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
   /api/v1/category/products:
     get:
       security:
@@ -203,5 +299,111 @@ paths:
             application/json:
               schema:
                 type: array
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+  /api/v1/day/getAllByUser:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - day
+      summary: Get all days.
+      description: Get all days.
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Day'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+  /api/v1/day/get:
+    post:
+      security:
+        - bearerAuth: []
+      tags:
+        - day
+      summary: Get day.
+      description: Get day.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              properties:
+                date:
+                  type: string
+                  pattern: '^\d{4}-\d{2}-\d{2}$'
+                  description: date
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Day'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+  /api/v1/day/getSinceDate:
+    post:
+      security:
+        - bearerAuth: []
+      tags:
+        - day
+      summary: Get days since date.
+      description: Get days since date.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                date:
+                  type: string
+                  pattern: '^\d{4}-\d{2}-\d{2}$'
+                  description: date
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Day'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+  /api/v1/day/add:
+    post:
+      security:
+        - bearerAuth: []
+      tags:
+        - day
+      summary: Add day.
+      description: Add day.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              properties:
+                date:
+                  type: string
+                  pattern: '^\d{4}-\d{2}-\d{2}$'
+                  description: date
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Day'
         '401':
           $ref: '#/components/responses/UnauthorizedError'

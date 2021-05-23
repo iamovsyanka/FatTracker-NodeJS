@@ -5,15 +5,15 @@ const fs = require('fs');
 const path = require('path');
 const https = require('https');
 const cert = {
-  key: fs.readFileSync(path.join(__dirname, "cert", "FAT.key")),
-  cert: fs.readFileSync(path.join(__dirname, "cert", "FAT.crt"))
+  key: fs.readFileSync(path.join(__dirname, 'cert', 'FAT.key')),
+  cert: fs.readFileSync(path.join(__dirname, 'cert', 'FAT.crt'))
 };
 
 const httpsServer = https.createServer(cert, app);
+require('./socket/socket');
 
 db.sequelize.authenticate()
-//db.sequelize.sync({ force: false, alter: true })
-  .then(async () => {
+  .then(() => {
     console.log(`Start project, port:${PORT}`);
 
     httpsServer.listen(PORT);
