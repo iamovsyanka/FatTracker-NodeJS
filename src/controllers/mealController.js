@@ -1,4 +1,5 @@
 const mealService = require('../services/mealService');
+const errMessages = require('../errors/errMessages');
 const error = require('../errors/appError');
 
 module.exports = {

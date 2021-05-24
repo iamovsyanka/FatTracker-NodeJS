@@ -10,7 +10,6 @@ const authMiddleware = (request, response, next) => {
     if (request.user.role !== 'admin') {
       response.status(403).end();
     }
-    console.log(request.user.role);
 
     next();
   } catch (error) {

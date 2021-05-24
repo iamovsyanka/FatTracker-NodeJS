@@ -25,9 +25,13 @@ module.exports = {
 
   async getProducts(req, res) {
     try {
-      const products = await categoryService.getProducts(req.query.id);
-      res.type('json');
-      res.end(JSON.stringify(products));
+      if (req.query.id) {
+        const products = await categoryService.getProducts(req.query.id);
+        res.type('json');
+        res.end(JSON.stringify(products));
+      } else {
+        return res.status(400).json(new error({ status: 400, message: errMessages.BAD_DATA }));
+      }
     } catch (ex) {
       return res.status(ex.status).json(new error({ status: ex.status, message: ex.message }));
     }
@@ -35,9 +39,10 @@ module.exports = {
 
   async add(req, res) {
     try {
-      if (!(req.body.name)) {
+      if (!(req.body.name || req.body.description)) {
         return res.status(400).json(new error({ status: 400, message: errMessages.BAD_DATA }));
       }
+
       const addedCategory = await categoryService.add(req.body);
       res.type('json');
       res.end(JSON.stringify(addedCategory));
@@ -48,6 +53,10 @@ module.exports = {
 
   async update(req, res) {
     try {
+      if (!req.body) {
+        return res.status(400).json(new error({ status: 400, message: errMessages.BAD_DATA }));
+      }
+
       const updatedCategory = await categoryService.update(req.body);
       res.type('json');
       res.end(JSON.stringify(updatedCategory));
@@ -58,6 +67,10 @@ module.exports = {
 
   async delete(req, res) {
     try {
+      if (!req.query.id) {
+        return res.status(400).json(new error({ status: 400, message: errMessages.BAD_DATA }));
+      }
+
       const deletedCategory = await categoryService.drop(req.query.id);
       res.type('json');
       res.end(JSON.stringify(deletedCategory));

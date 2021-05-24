@@ -1,9 +1,14 @@
 const userService = require('../services/userService');
+const errMessages = require('../errors/errMessages');
 const error = require('../errors/appError');
 
 module.exports = {
   async updateInformation(req, res) {
     try {
+      if (!(req.user.id || req.body)) {
+        return res.status(400).json(new error({ status: 400, message: errMessages.BAD_DATA }));
+      }
+
       const updatedUser = await userService.updateInformation(req);
       res.type('json');
       res.end(JSON.stringify(updatedUser));
@@ -14,6 +19,10 @@ module.exports = {
 
   async countCalories(req, res) {
     try {
+      if (!req.user.id) {
+        return res.status(400).json(new error({ status: 400, message: errMessages.BAD_DATA }));
+      }
+
       const updatedUser = await userService.countCalories(req.user.id);
       res.type('json');
       res.end(JSON.stringify(updatedUser));
@@ -24,6 +33,10 @@ module.exports = {
 
   async getInfo(req, res) {
     try {
+      if (!req.user.id) {
+        return res.status(400).json(new error({ status: 400, message: errMessages.BAD_DATA }));
+      }
+
       const user = await userService.getInfo(req.user.id);
       res.type('json');
       res.end(JSON.stringify(user));
@@ -34,7 +47,12 @@ module.exports = {
 
   async deleteUser(req, res) {
     try {
+      if (!req.user.id) {
+        return res.status(400).json(new error({ status: 400, message: errMessages.BAD_DATA }));
+      }
+
       const deletedUser = await userService.deleteUser(req.user.id);
+      res.type('json');
       res.end(JSON.stringify(deletedUser));
     } catch (ex) {
       return res.status(500).json(new error({ status: 500, message: ex.message }));
@@ -43,7 +61,12 @@ module.exports = {
 
   async deleteUserByAdmin(req, res) {
     try {
-      const deletedUser = await userService.deleteUser(req.body.id);
+      if (!req.body.id) {
+        return res.status(400).json(new error({ status: 400, message: errMessages.BAD_DATA }));
+      }
+
+      const deletedUser = await userService.deleteUserByAdmin(req.body.id);
+      res.type('json');
       res.end(JSON.stringify(deletedUser));
     } catch (ex) {
       return res.status(500).json(new error({ status: 500, message: ex.message }));
@@ -52,7 +75,12 @@ module.exports = {
 
   async restoreUser(req, res) {
     try {
+      if (!req.body) {
+        return res.status(400).json(new error({ status: 400, message: errMessages.BAD_DATA }));
+      }
+
       const restoredUser = await userService.restoreUser(req.body);
+      res.type('json');
       res.end(JSON.stringify(restoredUser));
     } catch (ex) {
       return res.status(500).json(new error({ status: 500, message: ex.message }));
@@ -61,7 +89,12 @@ module.exports = {
 
   async restoreUserByAdmin(req, res) {
     try {
+      if (!req.body.id) {
+        return res.status(400).json(new error({ status: 400, message: errMessages.BAD_DATA }));
+      }
+
       const restoredUser = await userService.restoreUserByAdmin(req.body.id);
+      res.type('json');
       res.end(JSON.stringify(restoredUser));
     } catch (ex) {
       return res.status(500).json(new error({ status: 500, message: ex.message }));

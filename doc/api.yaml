@@ -15,7 +15,6 @@ tags:
   - name: category
   - name: day
   - name: product
-  - name: meal
 
 components:
   schemas:
@@ -71,6 +70,26 @@ components:
         totalCarbs:
           type: number
 
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        calories:
+          type: number
+        fats:
+          type: number
+        protein:
+          type: number
+        carbs:
+          type: number
+        categoryId:
+          type: integer
+        userId:
+          type: integer
+
   securitySchemes:
     bearerAuth:
       type: http
@@ -81,6 +100,8 @@ components:
   responses:
     UnauthorizedError:
       description: Access token is missing or invalid
+    Forbidden:
+      description: You don't have enough rights
 
 paths:
   /api/v1/user/getInfo:
@@ -405,5 +426,253 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Day'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+  /api/v1/admin/category/add:
+    post:
+      security:
+        - bearerAuth: []
+      tags:
+        - admin
+      summary: Add category.
+      description: Add category.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/Category'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /api/v1/admin/category/update:
+    put:
+      security:
+        - bearerAuth: []
+      tags:
+        - admin
+      summary: Update category.
+      description: Update category.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                id:
+                  type: integer
+                name:
+                  type: string
+                description:
+                  type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/Category'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /api/v1/admin/category/delete:
+    delete:
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+          description: The number of category to delete
+      tags:
+        - admin
+      summary: Delete category.
+      description: Delete category.
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /api/v1/admin/product/update:
+    put:
+      security:
+        - bearerAuth: []
+      tags:
+        - admin
+      summary: Update product.
+      description: Update product.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                id:
+                  type: integer
+                name:
+                  type: string
+                calories:
+                  type: number
+                fats:
+                  type: number
+                protein:
+                  type: number
+                carbs:
+                  type: number
+                categoryId:
+                  type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/Product'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /api/v1/admin/product/delete:
+    delete:
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+          description: The number of product to delete
+      tags:
+        - admin
+      summary: Delete product.
+      description: Delete product.
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /api/v1/product/get:
+    post:
+      security:
+        - bearerAuth: []
+      tags:
+        - product
+      summary: Get product.
+      description: Get product.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                id:
+                  type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/Product'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+  /api/v1/product/search:
+    post:
+      security:
+        - bearerAuth: []
+      tags:
+        - product
+      summary: Search product.
+      description: Search product.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/Product'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+  /api/v1/product/update:
+    put:
+      security:
+        - bearerAuth: []
+      tags:
+        - product
+      summary: Update product.
+      description: Update product.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                id:
+                  type: integer
+                name:
+                  type: string
+                calories:
+                  type: number
+                fats:
+                  type: number
+                protein:
+                  type: number
+                carbs:
+                  type: number
+                categoryId:
+                  type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/Product'
         '401':
           $ref: '#/components/responses/UnauthorizedError'

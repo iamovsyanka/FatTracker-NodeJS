@@ -34,6 +34,10 @@ const add = async function (data, userId) {
 };
 
 const updateByUser = async function (data, user) {
+  const product = await db.models.Product.findOne({ where: { id: data.id } });
+  if (!product) throw new AppError({ status: 404, message: errMessage.PRODUCT_NOT_FOUND });
+
+  console.log(data)
   return await db.models.Product.update({
       name: data.name,
       calories: data.calories,
@@ -44,10 +48,8 @@ const updateByUser = async function (data, user) {
     },
     {
       where: {
-        [Op.and]: {
           userId: user.id,
           id: data.id
-        }
       }
     });
 };

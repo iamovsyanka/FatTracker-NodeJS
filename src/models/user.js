@@ -41,7 +41,7 @@ module.exports = function (sequelize, DataTypes) {
     },
     sex: {
       type: DataTypes.STRING(DataTypes.ENUM(enums.sex)),
-      allowNull: false
+      allowNull: true
     },
     birthDay: {
       type: DataTypes.DATEONLY,

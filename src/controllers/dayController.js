@@ -1,4 +1,5 @@
 const dayService = require('../services/dayService');
+const errMessages = require('../errors/errMessages');
 const error = require('../errors/appError');
 
 module.exports = {

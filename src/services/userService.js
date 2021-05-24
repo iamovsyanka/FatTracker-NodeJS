@@ -49,7 +49,7 @@ const login = async function (data) {
     throw new AppError({ status: 403, message: errMessage.EMAIL_NOT_CONFIRMED });
   }
 
-  //await notifications(user.email, user.name);
+  await notifications(user.email, user.name);
   return jwtToken.generateAccessToken(user.id, user.role);
 };
 
