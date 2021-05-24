@@ -107,3 +107,7 @@ dist
 .tern-port
 
 .idea
+.env
+~*
+
+
