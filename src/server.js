@@ -1,4 +1,3 @@
-const { PORT } = require('./config/config');
 const app = require('./app');
 const db = require('./db/db');
 const fs = require('fs');
@@ -10,13 +9,13 @@ const cert = {
 };
 
 const httpsServer = https.createServer(cert, app);
-//require('./socket/socket');
+require('./socket/socket');
 
 db.sequelize.authenticate()
   .then(() => {
-    console.log(`Start project, port:${PORT || process.env.PORT}`);
+    console.log(`Start project, port:${process.env.PORT}`);
 
-    httpsServer.listen(PORT || process.env.PORT);
+    httpsServer.listen(process.env.PORT);
   })
   .catch((err) => {
     console.error(err.message);
